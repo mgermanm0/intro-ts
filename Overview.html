@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang=en-us>
+  <meta charset=utf-8>
+  <title>Manual of the b6+ slide framework</title>
+  <meta name=viewport content="width=device-width">
+  <link rel=stylesheet href="simple.css">
+  <script src="b6plus.js"></script>
+
+ <body class=fade-in>
+
+  <div class=progress></div> <!-- progress bar -->
+
+  <section role=region aria-live=assertive>
+    <!-- What a screen reader should say on leaving slide mode,
+	 instead of the default ‘Stopped.’ -->
+    Leaving presentation mode.
+  </section>
+
+
+  <section class="cover slide clear" id=cover>
+   <h1>Manual of the b6+ slide framework</h1>
+   <address>Author: Bert Bos
+    <a href="mailto:bert@w3.org" >&lt;bert@w3.org&gt;</a></address>
+   <p class=note>Created: 8 March 2019<br>
+    Updated: $Date: 2022/04/15 10:51:17 $ by $Author: bbos $
+  </section>
+
+  <section class=comment>
+   <p>One way to get started writing slides with the b6+ framework is
+    to download the zip file <a href="slides.zip"
+    >‘slides.zip’</a>. It contains everything you need, in particular
+    the <a href="b6plus.js" >‘b6plus.js’</a> JavaScript file, two
+    different style sheets, <a href="simple.css" >‘simple’</a>
+    and <a href="style2.css" >‘style2’</a>,
+    this <a href="Overview.html" >manual</a> (which uses the simple
+    style) and a <a href="sample2.html" >sampler of style2</a>. You
+    can use the manual and the sampler as examples, or make a copy of
+    one or the other and change the contents to your liking.
+  </section>
+
+
+
+  <section class=slide id=intro1>
+   <h1>What is b6+? (1/2)</h1>
+   <p><a href="b6plus.js">b6plus.js</a> is a script (JavaScript) to
+    show slides in a browser
+    that does not have a paged mode. It is the successor
+    to <a href="../b6/" >b6</a> and backwards compatible with it, and
+    also provides some compatibility with <a href="https://shwr.me/"
+    >Shower</a>. With some restrictions, style sheets written for
+    Shower can be used with b6+.
+   <p>Slides can be elements with <code>class=slide</code>, but can
+    also just start with an <code>&lt;h1&gt;</code> (as in the
+    old <a href="../#slidemaker" >Slidemaker</a>) or with an element
+    with a <code>page-break-before: always</code> property (as for
+    Opera until version 12).
+   <p>The script handles the keyboard, mouse and
+     gesture <a href="#navigation" >navigation.</a>
+  </section>
+
+
+
+  <section class=slide id=intro2>
+   <h1>What is B6+? (2/2)</h1>
+   <p>The first part below is the manual for the functionality
+    provided by the script.
+
+   <p>The script will work without any style sheet, but a style sheet
+    may provide additional features.
+
+   <p>The second part of the manual describes the features of the
+    <a href="simple.css" >simple.css</a> style sheet (which is used for
+    this manual).
+  </section>
+
+
+
+  <section class=slide id=structure>
+   <h1>Document structure</h1>
+   <p>B6+ works with documents in which slides are marked up in one of
+    three ways:
+   <ol>
+    <li>each slide is enclosed in an element with <code>class=slide</code>, <em>or</em>
+    <li>an element with <code>page-break-before: always</code> starts a slide, <em>or</em>
+    <li>each slide starts with an <code>&lt;h1&gt;</code>
+   </ol>
+  </section>
+
+
+
+  <section class=slide id=script>
+   <h1>The b6plus.js script</h1>
+   <p>The script offers the following functions:
+   <ul>
+    <li>Swapping style sheets for screen and projection
+    <li>Shower compatibility
+    <li>Fixed aspect ratio or adaptive
+    <li>Progress bar
+    <li>Slide number &amp; count of slides
+    <li>Incremental display of elements on a slide
+    <li>Start either in index or in slide mode
+    <li>Navigation with keyboard, mouse or gestures
+    <li>Preview &amp; notes on a second screen
+   </ul>
+  </section>
+
+
+
+  <section class=slide id=media>
+   <h1>Screen and projection styles</h1>
+   <p>Different styles can be applied in slide mode and in index
+    mode. The media attribute determines what each style sheet is for.
+   <ul>
+    <li>media=screen indicates a style sheet for index mode:
+     <code>&lt;link rel="stylesheet" media="screen"
+     href=...&gt;</code> or <code>&lt;style
+     media="screen"&gt;…&lt;/style&gt;</code>
+
+    <li>media=projection or media="(overflow-block: paged)"
+     indicates a style sheet for slide mode: <code>&lt;link
+     rel="stylesheet" media="projection"
+     href=...&gt;</code> or <code>&lt;style media="(overflow-block:
+     paged)"&gt;…&lt;/style&gt;</code>. (‘projection’ is an
+     old, but now deprecated media type.)
+   </ul>
+  </section>
+
+
+
+  <section class=slide id=shower>
+   <h1>Compatibility with Shower</h1>
+   <p>B6+ implements a subset of <a href="https://shwr.me/"
+     >Shower's</a> functionality:
+   <ul>
+    <li>Sets <code>class=full</code> on <code>&lt;body</code> in slide mode
+    <li>Sets <code>class=active</code> on the currently displayed slide
+    <li>Sets <code>class=visited</code> on slides that have been displayed
+    <li>Sets <code>class=active</code> on incrementally displayed
+     elements
+   </ul>
+   <p>And on the URL:
+   <ul>
+    <li>With <code>?full</code> after the URL starts in slide mode
+    <li>With a fragment ID or number starts at that slide: <code>?full#intro</code> or <code>?full#2</code>
+   </ul>
+  </section>
+
+
+
+  <section class=slide id=aspect-ratio1>
+   <h1>Fixed aspect ratio (1/2)</h1>
+   <p>Slides can either have a fixed aspect ratio or adapt to the
+    projector. If the <code>&lt;body&gt;</code> element has a fixed
+    width &amp; height (in em, px, or other unit), b6+ will linearly
+    scale it to fit the projector.
+   <p>Advantage: The layout is independent of the projector. If the
+    content fits in the preview, it fits during projection as
+    well. Also absolute positioning on a slide is easier, because you
+    know the size of the slide in the chosen units.
+   <p>Disadvantage: The aspect ratio may not match the projector and
+    there may be some unused space either on the sides or above and
+    below the slide.
+  </section>
+
+
+
+  <section class=slide id=aspect-ratio2>
+   <h1>Fixed aspect ratio (2/2)</h1>
+   <p>E.g., if you set the <code>&lt;body&gt;</code> to 40em by 30em
+    (a 4:3 aspect ratio), but the projector is widescreen (16:9),
+    there will be black bands on the left and right.
+   <p>Note that it is the size of the <em>body</em> that
+    counts. Setting a width and height on individual slides does not
+    trigger the scaling.
+  </section>
+
+
+
+  <section class=slide id=progress>
+   <h1>Progress bar</h1>
+   <p>Any element with <code>class=progress</code> will get a style
+    attribute ‘width’ with a value between 0 and 100% corresponding to
+    the advancement of the slide show: When there are <var>m</var>
+    slides and slide <var>n</var> is displayed, the value is <var>n/m
+    * 100%</var>.
+   <p>There may be any number of such elements.
+   <p>That is all the script does. It is up to the style sheet to set
+    other properties (height, location, color…) The simple.css style sheet
+    makes the progress element into a thin red line along the top of
+    the slide.
+  </section>
+
+
+
+  <section class=slide id=slidenum>
+   <h1>Current slide number</h1>
+   <p>If there are elements with <code>class=slidenum</code>, their
+    content will be set to the number of the slide that is currently
+    displayed, as a decimal number:
+   <p>Currently showing slide ▶<span class=slidenum>(none)</span>◀
+   <p>There may be any number of such elements. All of them will have
+    the same content.
+   <p>It is up to the style sheet to style and position such
+    elements. The simple.css style does nothing with them. (It uses CSS
+    counters to number slides instead.)
+  </section>
+
+
+
+  <section class=slide id=numslides>
+   <h1>Total number of slides</h1>
+   <p>Any elements with <code>class=numslides</code> will have their
+    content replaced by the total number of slides, as a decimal
+    number.
+   <p>E.g., this slide show has ▶<span class=numslides>??</span>◀
+    slides.
+   <p>There may any number of such elements.
+   <p>It is up to the style sheet to style and postion such
+    elements. The simple.css style does nothing with such elements.
+   <p>Note: The slides are not counted until you enter slide mode.
+  </section>
+
+
+
+  <section class=slide id=incremental>
+   <h1>Incremental display with class=incremental</h1>
+   <p>If an element has <code>class=incremental</code>
+    or <code>class=overlay</code>, its children will be displayed one
+    at a time. The keys (space, arrow keys), clicks or gestures that
+    normally advance to the next slide instead cause the next child to
+    be displayed, until all of them are visible, after which the
+    navigation continues to the next slide. Example:
+   <ul class=incremental>
+    <li>Actually,
+    <li>the script just sets classes <code>visited</code> and <code>active</code>,
+    <li>the style sheet determines whether they are visible, highlighted, etc.
+   </ul>
+  </section>
+
+
+
+  <section class=slide id=next>
+   <h1>Incremental display with class=next</h1>
+   <p>Incremental display can also be done by
+    setting <code>class=next</code> on all elements that should be
+    unveiled one by one. Example
+   <ul>
+    <li class=next>The first item is visible first.
+    <li class=next>The second becomes visible next.
+    <li>The third item, without <code>class=next</code>, is always visible.
+    <li class=next>And then the fourth.
+   </ul>
+   <p>In this case the elements don't have to be children
+    of the same parent.
+  </section>
+
+
+
+  <section class=slide id=other>
+    <h1>Other features</h1>
+    <ul>
+      <li>Automatically sets <code>class=framed</code> on
+	the <code>&lt;body&gt;</code> when running
+	inside <code>&lt;object&gt;</code>
+	or <code>&lt;iframe&gt;</code> (allows styling)
+      <li>Automatically adds <code>target=_parent</code> to
+	all <code>&lt;a&gt;</code> elements when running
+	inside <code>&lt;object&gt;</code>
+	or <code>&lt;iframe&gt;</code> (makes hyperlinks work)
+      <li>Adding ‘?static’ or ‘?full&amp;static’ to the URL disables
+	navigation between slides
+    </ul>
+  </section>
+
+
+
+  <section class=slide id=navigation>
+   <h1>Navigation</h1>
+   <table>
+    <tbody>
+     <tr><th>‘A’, double click, 3-finger touch <td>Enter slide mode
+     <tr><th>‘A’, esc, 3-finger touch <td>Leave slide mode
+     <tr><th>→, ↓, spacebar, left click* <td>Next slide or incremental element
+     <tr><th>page down, swipe left <td>Next slide
+     <tr><th>←, ↑, page up, swipe right <td>Previous slide
+     <tr><th>home <td>First slide
+     <tr><th>end <td>Last slide
+     <tr><th>F1 <td>Toggle full-screen
+     <tr><th>? <td>Show available commands
+   </table>
+   <p>* unless class=noclick is set
+  </section>
+
+
+  <section class=slide id=second-screen>
+    <h1>Second screen</h1>
+    <p>Press ‘2’ to open a second window
+    <p>The window will be synchronized with the slide show
+    <p>It shows the current slide, notes, and next slides
+  </section>
+
+
+  <section class="cover slide clear" id=style1>
+   <h1>The simple.css style sheet</h1>
+  </section>
+
+
+
+  <section class="slide" id=style2>
+   <h1>The simple.css style sheet</h1>
+   <p><a href="simple.css" >simple.css</a> contains style rules for
+    slide mode, index mode and for printing.
+   <p>Here are examples and a manual.
+  </section>
+
+
+
+  <section class="slide slide-in" id="lists">
+   <h1>Lists</h1>
+   <p>An example of a numbered list:</p>
+   <ol>
+    <li>Potatoes</li>
+    <li>Onions and olives</li>
+   </ol>
+   <p>An example of an unordered list:</p>
+   <ul>
+    <li>North pole</li>
+    <li>East pole</li>
+   </ul>
+  </section>
+
+
+
+  <section class="slide move-left" id="elements">
+   <h1>Some elements</h1>
+   <p>Words can be given a <strong>strong emphasis</strong>, which
+    makes them appear in bold</p>
+   <p>The <em>normal emphasis</em> has a highlighter effect.</p>
+   <p>Code looks like this: <code>if (a) return b;</code></p>
+   <p class="note">This is an example of a note, in a smaller font</p>
+  </section>
+
+
+
+  <section class=slide id=in-place>
+   <h1>Elements updated in-place</h1>
+   <p>Combining class=incremental with class=in-place
+     yields elements that are displayed one by one, with each one
+     replacing the previous. Example:
+   <ol class="incremental in-place">
+     <li>First element
+     <li>The second replaces the first<br>
+       until it itself is replaced
+     <li>The third replaces the second.
+   </ol>
+   <p class=note>(class=overlay is an alias for class=incremental.)
+  </section>
+
+
+
+  <section class="slide side flip-up" id="side">
+   <h1>An image on the side</h1>
+   <img class="side" src="CSS_color_tree3t.png"
+	alt="[Picture of a stylized tree with colorful, square leaves]" />
+   <p>It seems the famous ‘lorem ipsum’ is based on a text by Cicero,
+    but with the lines mixed up. On a Cicero by the text, it seems the
+    ‘ipsum lorem’ is famous based with lines but mixed up.</p>
+  </section>
+
+
+  <section class="slide side r flip-left" id="right-side">
+   <h1>An image on the side</h1>
+   <img class="side" src="CSS_color_tree3t.png"
+	alt="[Picture of a stylized tree with colorful, square leaves]" />
+   <p>And again, with class ‘slide side right’.</p>
+   <p>It seems the famous ‘lorem ipsum’ is based on a text by Cicero,
+    but with the lines mixed up. On a Cicero by the text, it seems the
+    ‘ipsum lorem’ is famous based with lines but mixed up.</p>
+  </section>
+
+
+
+  <section class="slide center-out" id="columns">
+   <h1>In columns</h1>
+   <div class="columns">
+    <p>Children of an element with a class of ‘columns’ are
+     distributed over two columns</p>
+    <p>This is the second child, which goes into the right
+     column</p>
+    <p>And this is the third one. Left column again.</p>
+    <p>Etc.</p>
+   </div>
+  </section>
+
+
+
+  <section class="slide wipe-left" id="place">
+   <div class="place t l"><strong>place t l</strong></div>
+   <div class="place t"><strong>place t</strong></div>
+   <div class="place t r"><strong>place t r</strong></div>
+   <div class="place l">Here is something for the left
+   side, with class <strong>place l</strong></div>
+   <div class="place">class <strong>place</strong> puts an element
+   centered in a 3×3 grid</div>
+   <div class="place r"><strong>place r</strong></div>
+   <div class="place b l"><strong>place b l</strong></div>
+   <div class="place b"><strong>place b</strong></div>
+   <div class="place b r">combine <strong>place</strong> with
+   <strong>top</strong> (or <strong>t</strong>),
+   <strong>right</strong> (or <strong>r</strong>),
+   <strong>bottom</strong> (or <strong>b</strong>) and
+   <strong>left</strong> (or <strong>l</strong>)</div>
+  </section>
+
+
+
+  <section class="slide zigzag-left" id="numbered">
+   <h1>Numbered lines of code</h1>
+   <pre class="numbered">
+Lines in a PRE can be numbered
+                       (automatically)
+  * Give the PRE a class of "numbered"
+  * Works for up to 20 lines
+                       (depending on font size)
+  six
+   seven
+   eight
+    nine
+    ten
+  eleven</pre>
+  </section>
+
+
+
+  <section class="slide zigzag-right" id="image-cover">
+   <h1>Image overlay: cover</h1>
+   <img class="cover" src="Lyon_Rhone_bkg.jpg"
+	alt="A bridge over the Rhone in Lyon" />
+   <p class="place bottom right">Careful, some images make the text hard to
+    read!</p>
+  </section>
+
+
+
+  <section class="slide cut-in" id="image-fit">
+   <h1>Image overlay: fit</h1>
+   <img class="fit" src="Lyon_Rhone_bkg.jpg"
+	alt="A bridge over the Rhone in Lyon" />
+   <p class="place">Careful, some images make the text
+    hard to read!</p>
+  </section>
+
+
+
+  <section class="slide" id="takahashi">
+   <h1>Shout!</h1>
+   <p class="shout">Takahashi method</p>
+  </section>
+
+
+
+  <section class="slide" id="grow">
+   <h1>Grow!</h1>
+   <p class="grow">Animated</p>
+   <p>Don't use this too often!</p>
+  </section>
+
+
+
+  <section class="slide" id="shout-and-grow">
+   <h1>Shout and grow!</h1>
+   <p class="shout grow">Animated</p>
+   <p>Don't use this too often!</p>
+  </section>
+
+
+
+  <section class="slide" id="transitions">
+   <h1>Slide transitions</h1>
+   <p>The style sheet predefines several transitions: fade-in, slide-in,
+    move-left, etc.</p>
+   <p>A transition can be set globally, applying to all slides; or
+    locally, applying only to the transtion between this slide and the
+    next.</p>
+  </section>
+
+
+  <section class="slide cover clear" id="end">
+   <h1>Thank you!</h1>
+  </section>
+
+
+
+  <section class="comment" id="manual">
+   <h2>Writing slides</h2>
+
+   <p>Here are some instructions for writing slides with the
+    simple.css style sheet.
+
+   <h3>Slides</h3>
+
+   <p>Each slide is a <strong>section</strong>
+    element<sup><a href="#note1" >*</a></sup> with a class
+    of <strong >slide</strong>:</p>
+
+   <pre>&lt;section class="slide">
+  ... slide content here...
+&lt;/section></pre>
+
+   <p>Inside the slides, use normal HTML elements (<strong>p, ul,
+    em,</strong> etc.).</p>
+
+   <p class="note" id="note1">*) Note for advanced users: Although not
+    shown in this template, it is in fact possible to use other
+    elements than <strong>section</strong>. One common choice is
+    <strong>div.</strong></p>
+
+   <h3>Slides in alternative formats</h3>
+
+   <p>Instead of enclosing every slide in an element with a class
+    of <strong>slide</strong>, it is also possible to use the old
+    convention from <a href="../#slidemaker" >Slidemaker</a> and just
+    start each slide with an <strong>h1</strong>. Everything until the
+    next <strong>h1</strong> will make up one slide.</p>
+
+   <p>And another alternative is to set the CSS property
+    ‘page-break-before: always’ on each element that starts a new
+    slide.</p>
+
+   <h3>Slide numbers</h3>
+
+   <p>If a slide should <em>not</em> show the slide number, add the
+    class <strong>clear</strong>:</p>
+
+   <pre>&lt;section class="slide clear">
+  ... slide content here...
+&lt;/section></pre>
+
+   <h3>Title slides (cover slides)</h3>
+
+   <p>For cover slides (the title slide or separator slides between
+    parts of a presentation), add a class <strong>cover</strong>. You
+    can combine <strong>cover</strong>
+    and <strong>clear</strong>. E.g.:</p>
+
+   <pre>&lt;section class="slide cover clear">
+  &lt;h1>My presentations&lt;h1>
+  &lt;address>Peter W. Slidemaker&lt;/address>
+&lt;/section></pre>
+
+   <h3>Illustrations on the left or right</h3>
+
+   <p>Slides with narrower text and an illustration on the left can be
+    made by adding the class <strong>side</strong> to the
+    slide. Inside the slide there should be exactly one element that
+    also has a class of <strong>side</strong> (an image or some other
+    element):</p>
+
+   <pre>&lt;section class="slide side">
+  &lt;img src="..." alt="..." class="side">
+  ... slide content here...
+&lt;/section></pre>
+
+   <p>The side element will occupy the
+    left <span class="num">1/3</span> of the slide and the rest of the
+    content the right <span class="num">2/3</span>.</p>
+
+   <p>To put the image on the right instead, add
+    class <strong>right</strong> (which may be abbreviated
+    to <strong>r</strong>):</p>
+
+   <pre>&lt;section class="slide side r">
+  &lt;img src="..." alt="..." class="side">
+  ... slide content here...
+&lt;/section></pre>
+
+   <h3>Progress bar</h3>
+
+   <p>If you want a progress bar during the slide presentation, add an
+    empty <strong>div</strong> with a class
+    of <strong>progress</strong>. It can be put before the first slide
+    or after the last, but there should be at most one such element in
+    the file:</p>
+
+   <pre>&lt;div class="progress">&lt;/div></pre>
+
+   <p>The progress bar will show as a thin red line along the top of
+    the slides. Its length increases from zero on the first slide to
+    100% on the last.</p>
+
+   <h3>Incremental display</h3>
+
+   <p>To progressively reveal elements on a slide, put a class
+    of <strong>next</strong> on all elements that should not be
+    visible right away. They will become visible one by one as you
+    press the space bar or an arrow key. E.g.:</p>
+
+   <pre>&lt;ul>
+  &lt;li>This item is visible when the slide appears&lt;/li>
+  &lt;li class="next">This item is not immediately visible&lt;/li>
+  &lt;li class="next">This is the third item to appear&lt;/li>
+&lt;/ul>
+&lt;p class="next">This is the last element to appear&lt;/p></pre>
+
+   <p>If all children of an element should be revealed individually
+    (e.g., all items in a list), you can also put
+    class <strong>incremental</strong> on their parent:</p>
+
+   <pre>&lt;ol class=incremental&gt;
+   &lt;li&gt;This appears first&lt;/li&gt;
+  &lt;li&gt;This appears next&lt;/li&gt;
+  &lt;li&gt;And then this&lt;/li&gt;
+&lt;/ol&gt;</pre>
+
+   <h3>Two columns</h3>
+
+   <p>To put elements side by side in two columns, make an element
+    (a <strong>section, ul</strong> or any other element) with
+    class <strong>columns</strong>. The first child of that element
+    will be put in the left column, the second child in the right
+    column. If there are more children, the third will be in the left
+    column again, the fourth in the right, etc.</p>
+
+   <pre>&lt;ul class="columns">
+  &lt;li>First goes on the left&lt;/li>
+  &lt;li>Second goes on the right&lt;/li>
+&lt;/ul></pre>
+
+   <h3>Small text</h3>
+
+   <p>Less important text can be shown in a smaller font by giving it
+    a class of <strong>note</strong>:</p>
+
+   <pre>&lt;p class="note">Note that this is harder to read&lt;/p></pre>
+
+   <h3>Automatic line numbering</h3>
+
+   <p>Pre-formatted text (in a <strong>pre</strong>) can be given line
+    numbers by adding the class <strong>numbered</strong>:</p>
+
+   <pre>&lt;pre class="numbered"></pre>
+
+   <p>No more than 20 lines will be numbered. (In the normal font
+    size, a slide fits 13 lines.)</p>
+
+   <h3>3×3 Grid</h3>
+
+   <p>It is possible to treat the slide as a 3×3 grid and put elements
+    in the four corners, in the middle of each edge, or in the center
+    of the slide. This is done by giving the elements a class
+    of <strong>place</strong>. On its own, <strong>place</strong> puts
+    the element in the center. By adding classes <strong>top, right,
+    bottom</strong> and <strong>left</strong> the element can be
+    placed in one of the eight other positions.</p>
+
+   <pre>&lt;div class="place">Put this in the center&lt;/div>
+&lt;div class="place bottom">Put this bottom center&lt;/div>
+&lt;div class="place top right">In the top right corner&lt;/div></pre>
+
+   <p>The direction classes can also be abbreviated to <strong>t, r,
+    b</strong> and <strong>l</strong>.</p>
+
+   <h3>Image overlays (background images)</h3>
+
+   <p>To put an image behind the text of a slide, use
+    an <strong>img</strong> with a class
+    of <strong>cover</strong>:</p>
+
+   <pre>&lt;img class="cover" src="..." alt="..."></pre>
+
+   <p>The image will be stretched to fill the whole of the text area.
+    If the image doesn't fit exactly (wrong aspect ratio), the image
+    will be cropped.</p>
+
+   <p>With a class of <strong>fit</strong> instead
+    of <strong>cover</strong>, the image will be scaled but without
+    cropping. Instead there may be white bands on the sides or
+    above/below the image, if it doesn't fit exactly.</p>
+
+   <pre>&lt;img class="fit" src="..." alt="..."></pre>
+
+   <p>This works both for normal slides and title slides (slides with
+    a class of <strong>cover</strong>). The logo on the right is not
+    obscured by the image.</p>
+
+   <h3>Slide transitions</h3>
+
+   <p>By default, each slide just replaces the previous one, but there
+    are several predefined slide transitions. You can set a transition
+    on the <strong>body</strong> element to apply it to all
+    slides:</p>
+
+   <pre>&lt;body class="fade-in"&gt;</pre>
+
+   <p>Or you can set it on individual slides, to apply only to the
+    transition between that slide and the next. (I.e., it doesn't
+    determine how the slide appears, but how it
+    <em>disappears.</em>)</p>
+
+   <pre>&lt;section class="slide wipe-left"&gt;</pre>
+
+   <p>You can set both a global transition and local ones. The global
+    transition applies to slides that do not have an explicit
+    transition set locally.</p>
+
+   <dl>
+    <dt>fade-in</dt>
+    <dd>The new slide appears faint at first and gets more opaque
+     until it completely obscures the previous slide.</dd>
+
+    <dt>slide-in</dt>
+    <dd>The new slide moves in from the left, while the previous slide
+     moves back to the left.</dd>
+
+    <dt>move-left</dt>
+    <dd>The new slides move in from the right while the old slide
+     moves out to the left.</dd>
+
+    <dt>move-up</dt>
+    <dd>The old slide moves up and the new slide moves in from the
+     bottom.</dd>
+
+    <dt>flip-up</dt>
+    <dd>A 3D effect: the bottom of the old slide is lifted up and the
+     slide is turned over to reveal the new slide on its back
+     side.</dd>
+
+    <dt>flip-left</dt>
+    <dd>Another 3D effect, but in this case the right side of the
+     slide is lifted up and the slide is flipped over to the left,
+     revealing the new slide on the back side.</dd>
+
+    <dt>center-out</dt>
+    <dd>A small circle appears in the middle of the old slide that
+     reveals the new slide. The circle grows until it covers the whole
+     slide.</dd>
+
+    <dt>wipe-left</dt>
+    <dd>The new slide moves in from the right, until it covers the old
+     slide.</dd>
+
+    <dt>zigzag-left</dt>
+    <dd>A zigzag pattern moves in from the right. To the left is the
+     old slide, to the right the new one.</dd>
+
+    <dt>zigzag-right</dt>
+    <dd>A zigzag pattern moves in from the left. To the left is the
+     new slide, to the right the old one.</dd>
+
+    <dt>cut-in</dt>
+    <dd>The new slide moves in from the top left and covers the old
+     slide.</dd>
+   </dl>
+
+   <h3>Accessibility</h3>
+
+   <p>When you present while using a screen reader, you cannot use the
+   screen reader's usual keystrokes to navigate, only
+   the <a href="#keystrokes">keystrokes defined by the b6+ script</a>.
+   However, the screen reader will speak each slide as soon as it
+   appears. The script creates an element with
+   attributes <strong>role=region</strong>
+   and <strong>aria-live=assertive</strong> for that purpose.</p>
+
+   <p>When you leave slide mode, the screen reader will
+   say ‘stopped’. To make it say something else (e.g., because you
+   want a different language than English), create an element with
+   role=region and aria-live=assertive yourself and put the text to
+   speak in it. E.g.:</p>
+
+   <pre>&lt;section role="region" aria-live="assertive"&gt;
+  <span lang=fr>Terminé.</span>
+&lt;/section&gt;</pre>
+
+   <h2 id="presenting">Presenting</h2>
+
+   <h3 id="keystrokes">Mouse gestures and keystrokes</h3>
+
+   <p>To present the slides, load them into a browser that supports
+   JavaScript and CSS and then press the <strong>A</strong> key or
+   double-click on a slide or touch the screen with three fingers (on
+   certain devices).</p>
+
+   <p>Navigate though the slides by clicking the left mouse button,
+   pressing the spacebar, the arrow keys or Page-up/Page-Down. The
+   Home and End keys jump to the first, resp. last
+   slide. <strong>F1</strong> toggles full screen mode. The <strong>?
+   (question mark)</strong> key shows a list of available
+   commands.</p>
+
+   <p>To exit the presentation, press the <strong>Esc</strong>
+   key.</p>
+
+   <p>See the slide <a href="#navigation" >‘Navigation’</a> for a list
+   of key strokes.</p>
+
+   <h3 id="second-window">Using two screens or two windows</h3>
+
+   <p>b6+ can open a second window to preview the
+   current and next slides and show notes. If you have two screens
+   that can show different content (e.g., your computer's screen and a
+   projector), you can thus present the slides on one screen, and see
+   the current and next slides, and any notes, on the other.</p>
+
+   <p>Open the second window by pressing the ‘2’ key while in slide
+   mode. (If it creates a tab, drag it out of the tab bar to make it a
+   window.) Every time you go to a new slide, this second window will
+   scroll to show the same slide (with incremental elements already
+   expanded). If you make the window large enough, you can also see
+   the next slide, and any notes you put under the slides.</p>
+
+   <p>Note: If you reload the slides, the script forgets that the
+   second window exists and thus will not synchronize it. Just press
+   ‘2’ again and it will reconnect to the second window.</p>
+
+   <h3 id="full">Starting in slide mode</h3>
+
+   <p>Add ‘?full’ at the end of the URL (but before any fragment ID)
+     to open the slides in slide mode instead of index mode.</p>
+
+   <p>To open in slide mode at a specific slide, add ‘?full’ and the
+     ID or the number of the slide, e.g., <a
+     href="?full#place">Overview.html?full#place</a> or <a
+     href="?full#place">Overview.html?full#25</a>.
+
+   <h3 id="hidemouse">Hiding the mouse pointer</h3>
+
+   <p>When you don't want the mouse pointer to remain on the screen in
+    slide mode, add the class <strong>hidemouse</strong> on
+    the <strong>body</strong> element. If the mouse does not move for
+    5 seconds, the pointer is made invisible. It comes back as soon as
+    the mouse is moved.</p>
+
+   <pre>&lt;body class="hidemouse"&gt;</pre>
+
+   <p>You can also set a different timeout in seconds. E.g, to set a
+    short timeout of 1.5 seconds:</p>
+
+   <pre>&lt;body class="hidemouse=1.5"&gt;</pre>
+
+   <h3 id="noclick">Ignore mouse clicks</h3>
+
+   <p>Normally, a mouse click anywhere on a slide (other than on a
+    hyperlink or form element) has the effect of advancing to the next
+    slide or incremental element. If you don't want that, add the
+    class <strong>noclick</strong> on the <strong>body</strong>
+    element.</p>
+
+   <h2 id="embedding">Embedding slides in other documents</h2>
+
+   <p>You can embed a single slide in another document with the help
+     of an <code>&lt;object&gt;</code> or <code>&lt;iframe&gt;</code>
+     element. To avoid that a keypress or click on that slide
+     accidentally changes the slide, you can disable navigation
+     between slides and switching to index mode: add
+     ‘?full&amp;static’ at the end of the URL, followed by the ID of
+     the desired slide. E.g.: <code>&lt;object
+     data="Overview.html?full&amp;static#place">…&lt;/object></code></p>
+
+   <p>Adding ‘?static’ on its own to the URL is also possible: It
+     shows all slides in index mode and disables switching to slide
+     mode.</p>
+  </section>
+
+  <section class="comment">
+   <address>Created 4 March 2019 by <a
+   href="mailto:bert@w3.org">Bert Bos</a>. Last modified
+   $Date: 2022/04/15 10:51:17 $ by $Author: bbos $.</address>
+  </section>
+ </body>
+</html>

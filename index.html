@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang=es-es>
+  <meta charset=utf-8>
+  <title>Predicción de series temporales</title>
+  <meta name=viewport content="width=device-width">
+  <meta name="duration" content="45" />
+  <link rel=stylesheet href="assets/css/simple.css">
+  <script src="assets/js/b6plus.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Rubik:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+
+<!--
+  Slide transitions =========================  
+fade-in
+    The new slide appears faint at first and gets more opaque until it completely obscures the previous slide.
+slide-in
+    The new slide moves in from the left, while the previous slide moves back to the left.
+move-left
+    The new slides move in from the right while the old slide moves out to the left.
+move-up
+    The old slide moves up and the new slide moves in from the bottom.
+flip-up
+    A 3D effect: the bottom of the old slide is lifted up and the slide is turned over to reveal the new slide on its back side.
+flip-left
+    Another 3D effect, but in this case the right side of the slide is lifted up and the slide is flipped over to the left, revealing the new slide on the back side.
+center-out
+    A small circle appears in the middle of the old slide that reveals the new slide. The circle grows until it covers the whole slide.
+wipe-left
+    The new slide moves in from the right, until it covers the old slide.
+zigzag-left
+    A zigzag pattern moves in from the right. To the left is the old slide, to the right the new one.
+zigzag-right
+    A zigzag pattern moves in from the left. To the left is the new slide, to the right the old one.
+cut-in
+    The new slide moves in from the top left and covers the old slide. 
+-->
+
+
+ <body class="fade-in hidemouse=1.5">
+
+  <div class=progress></div> <!-- progress bar -->
+
+  <section role=region aria-live=assertive>
+    <!-- What a screen reader should say on leaving slide mode,
+	 instead of the default ‘Stopped.’ -->
+    Leaving presentation mode.
+  </section>
+
+  <section class="comment small timer">
+    <span class="timer-text"></span>
+    <button class="timer-start">Empezar</button>
+  </section>
+  <script>
+    let time_mins = 50
+    let setMins = function(){
+      document.querySelector(".timer-text").textContent = `${time_mins} min. restantes`;
+      time_mins -= 1;
+    }
+    setMins()
+    document.querySelector(".timer-start").addEventListener("click", function(){
+      this.style.display = "none";
+      setInterval(setMins, 60000)
+    });
+    
+  </script>
+
+  <section class="comment small">
+
+    Para iniciar la presentación, haz <a href="?full">clic aquí</a> o <b>doble clic</b> en cualquiera de las diapositivas. Para navegar por las diapositivas, puedes utilizar las flechas del teclado.
+    <p>
+      Esta presentación ha sido compuesta utilizando el <a href="https://www.w3.org/Talks/Tools/b6plus/">motor B6+ del W3C</a>, a partir del <a href="https://github.com/fdavidcl/defensa">código fuente en GitHub</a> proporcionado por David Charte (¡Gracias!). Ajustes realizados por Manuel Germán.
+    </p>
+    <p>
+      Puedes contactar conmigo mediante correo <a href="mailto:mgerman@ujaen.es" >&lt;mgerman@ujaen.es&gt;</a> o mediante RRSS: X (anteriormente Twitter) <a href="https://twitter.com/mgermanm0" target="_blank"> @mgermanm0</a> o LinkedIn <a href="https://www.linkedin.com/in/mgermanm/" target="_blank">Manuel G.</a>
+    </p>
+    <p>
+      ¡Te invito también a seguir a <a href="https://www.linkedin.com/company/simidat/" target="_blank">SiMiDat en LinkedIn</a> para enterarte de todo lo que hacemos!
+    </p>
+  </section>
+
+  <section class="cover slide clear titleslide flex" id=cover>
+    <div class="left-side vertical-logo">
+        <span></span>
+        <img src="images/logo_simidat.png">
+    </div>
+    <div class="right-side">
+      <img class="cover less-bright" src="images/ts_bg.jpg"/>
+      <h1 style="line-height: 1.8em;">
+        Introducción al<br>
+        <span class="largest"><i>Análisis de series temporales</i></span>
+      </h1>
+      <p class="subtitle">Predicción de [temática aquí]<br>Minería de Datos - Curso 2024/2025</p>
+      <p class="institution">Grupo de investigación de Sistemas Inteligentes y Minería de Datos</p>
+      <p class="subtitle">SiMiDat</p><br>&nbsp;
+      <p class="author">Manuel Germán Morales
+        <a href="mailto:mgerman@ujaen.es" >&lt;mgerman@ujaen.es&gt;</a></p>
+      <p class=note>12 de noviembre de 2024<br>
+    </div>
+  </section>
+
+  <section class="slide clear" id="toc">
+    <h1>Índice</h1>
+    <ol class="maketoc"></ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <div class="box next">Sigue la presentación en <a href="https://mgermanm0.github.io/ts-intro/">mgermanm0.github.io/ts-intro</a></div>
+  </section>
+
+  <section class="cover slide clear " id="intro">
+    <img class="cover" src="images/ts_bg.jpg"
+    alt="Landscape loss" />
+    <h1>¿Qué es una serie temporal?</h1>
+  </section>
+  
+  
+  <section id="motivación" class="slide">
+    <h1>¿Por qué es interesante el TSA?</h1>
+    <div class="box next secondary">Las series temporales están presentes en una gran cantidad de dominios</div>
+    <div class="next">
+      <h3>Algunos ejemplos...</h3>
+      <ul class="incremental" style="max-width: 25em; margin-left: auto; margin-right: auto;">
+        <li>Consumo energético</li>
+        <li>Ocupación de una carretera</li>
+        <li>Meteorología: Temperatura, litros de lluvia...</li>
+        <li>Producción y demanda de productos</li>
+      </ul>
+    </div>
+    <p class="next">¿Y qué tienen en común todas las mediciones procedentes de estos dominios?</p>
+    <div class="box next primary next">Presentan <h3>dependencias temporales</h3></div>
+
+
+  </section>
+
+<section class="slide" id="moti2">
+  <h1>¿Qué es una serie temporal?</h1>
+  <div class="box next">Una <strong>serie temporal</strong> no es nada más que un conjunto de <strong>observaciones</strong> medidas con una <strong>frecuencia</strong> ordenadas a lo largo del <strong>tiempo</strong></div>
+  <div class="next"><p>Podemos expresar una serie temporal \(S\) de la siguiente forma.</p>
+  <div>$$S = \{x_0, x_1, x_2, ..., x_t\}$$</div></div>
+  <div class="next">
+    <p>Donde:</p>
+    <ul>
+      <li>\(x_0, x_1, x_2, ..., x_t\) son las <strong>observaciones</strong> recogidas a lo largo del tiempo (\(t\)). Una observación puede contener <strong>una</strong> medición o <strong>varias</strong> mediciones.</li>
+    </ul>
+  </div>
+  <img style="height: 35%;" class="next" src="images/ts-yellowstone.jpg">
+</section>
+
+
+  <section class="slide cover clear" id="d1">
+    <img class="cover" src="images/ts_bg.jpg"
+    alt="Abstract nodes and connections" />
+    <div>
+      <div class="flex">
+        <h1>Análisis exploratorio</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="moti2">
+    <h1>Propiedades de una serie temporal</h1>
+    <p>A diferencia de otros tipos de datos... ¿Qué es lo que diferencia a las <strong>series temporales</strong>?</p>
+    <p class="next">Es necesario tener en cuenta las <strong>dependencias temporales</strong> que presentan las observaciones.</p>
+    <p class="next">¿Podremos usar técnicas de análisis que <strong>no consideren</strong> el orden de nuestras mediciones?</p>
+    <div class="box next"><h3>SI</h3>Podemos usarlas. ¡La descripción básica de los datos se sigue haciendo con estadísticos univariables! Sin embargo, es necesario <i>mejorar</i> otras técnicas y usar test estadísticos específicos para datos secuenciales.</div>
+  </section>
+  
+  <section class="slide" id="d2">
+    <h1>Descripción inicial</h1>
+    <br>
+    FotoV es una <strong>aplicación web</strong> que permite a <strong>cualquier usuario</strong> obtener un <strong>dimensionado</strong> adecuado a sus necesidades.
+    Entre sus funcionalidades, destacan:
+    <div class="flex" style="margin-top: 2em;">
+      <!-- <ul class="incremental"> -->
+          <div class="box next secondary">Optimización del dimensionado fotovoltaico para minimizar el coste energético de un hogar</div>
+          <div class="box next secondary">Visualización de los resultados mediante gráficas y tablas resumen</div>
+          <div class="box next secondary">Simulación de dimensionados introducidos por el usuario</div>
+          <div class="box next secondary">Posibilidad de optimizar dimensionados ya existentes</div>
+      <!-- </ul> -->
+    </div>
+    <br>
+    <div class="box next">Nos centraremos en el diseño de los <strong>métodos evolutivos</strong></div>
+  </section>
+
+  <!-- <section class="slide" id="a1s3">
+    <h1>Taxonomía</h1>
+    <iframe src="assets/taxonomy.pdf#toolbar=0"></iframe> -->
+  <!-- </section> -->
+  <section class="slide" id="d3">
+    <h1>Representación de la solución</h1>
+    <p>Un sistema fotovoltaico posee muchos componentes. ¿Qué es necesario <strong>modelar</strong>?</p>
+    <div><img src="images/solarred.gif"></div>
+  </section>
+
+  <section class="slide" id="d4">
+    <h1>Representación de la solución</h1>
+    <p>Un <strong>módulo</strong> posee una inclinación (\(\alpha\)) y acimut (\(\beta\)) respecto al Sol.</p>
+    <br>
+    <div style="margin:auto; width:35em"><img src="images/inc-acimut.png"></div>
+  </section>
+
+  <section class="slide" id="d5">
+    <h1>Representación de la solución</h1>
+    <p>Un <strong>individuo</strong> del sistema es un conjunto de <strong>módulos</strong>. <br>Un módulo posee una inclinación (\(\alpha\)) y acimut (\(\beta\)) respecto al Sol.<br>Todos los módulos del sistema poseen una misma potencia.</p>
+    <div style="margin:auto; width:35em"><img src="images/representacion.drawio.png"></div>
+    <br>
+    <div class="box secondary">Por lo tanto, el total de módulos vendrá dado por la expresión $$N=\left \lceil{\frac{pot_{total}}{pot_{modulo}}}\right \rceil$$</div>
+  </section>
+
+  <section class="slide" id="d6">
+    <h1>Parámetros principales de entrada</h1>
+    <br><br>
+    <div class="flex">
+      <div class="box secondary">
+        <h3 class="next">Dados por el usuario</h3>
+        <ul class="left next">
+          <li>Latitud y longitud</li>
+          <li>Modelo del algoritmo <br> <i>(Generacional o Estacionario)</i></li>
+          <li>Tipo de experimento</li>
+          <li>Potencia deseada total</li>
+          <li>Potencia de un módulo</li>
+          <li><strong>Curva de consumo</strong></li>
+        </ul>
+      </div>
+      <div class="box secondary">
+        <h3 class="next">Propios del algoritmo</h3>
+        <ul class="left next">
+          <li>Tamaño de la población</li>
+          <li>Condición de parada</li>
+          <li>Tamaño del torneo<br><i>(Enfoque generacional)</i></li>
+          <li>Probabilidad de cruce</li>
+          <li>Probabilidad de mutación<br><i>(Agresiva y suave)</i></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="d7">
+    <h1>Diseñando la función objetivo</h1>
+    <div class="box">Nuestro objetivo es <strong>minimizar</strong> el coste de la factura energética del usuario.</div>
+    <div class="next"><p>¿Qué datos son necesarios para calcular este coste?</p></div>
+    <ul class="incremental" style="margin-left: auto; margin-right: auto;">
+      <li>De la <strong>curva de consumo</strong>: Energía consumida en cada hora del día</li>
+      <li><strong>Potencias y localización</strong> proporcionados por el usuario.</li>
+      <li>El <strong>precio</strong> de la tarifa de la luz y de la compensación se recogen mediante una <strong>API</strong><br><small>¿Veis algún problema aquí?</small></li>
+      <li>Nuestros individuos son sistemas fotovoltaicos... ¿Qué nos falta?</li>
+  </ul>
+  <div class="box secondary next">Es necesario determinar la <strong>energía generada</strong> por un individio en cada momento de la <strong>curva de consumo</strong> para determinar el <strong>autoconsumo</strong> del hogar y si <strong>exporta</strong> energía</div>
+  <br>
+  <h2 class="next" style="text-align: center;">¿Alguna idea?</h2>
+  </section>
+  <section class="comment small">
+    <p>Otra pregunta interesante: ¿Qué pasa con aquellos hogares que ya posean un sistema fotovoltaico a la hora de obtener la energía consumida?</p>
+    <p>Por si te da curiosidad, aquí puedes consultar el precio de la tarifa energética actual: <a href="https://www.esios.ree.es/es/pvpc" target="_blank">ESIOS PVPC</a></p>
+  </section>
+
+  <section class="slide" id="d8">
+    <h1>Diseñando la función objetivo</h1>
+    <br>
+    <p>La función objetivo final define como sigue:</p>
+    <div style="margin:auto; width:35em"><img src="images/fo.png"></div>
+    <p>Donde:</p>
+    <ul>
+      <li>\(pec(i,s)\) es el precio de la energía <strong>comprada</strong> a la red el mes \(i\) con el sistema \(s\)</li> 
+      <li>\(pex(i,s)\) es el precio de la energía <strong>excedentaria</strong> del sistema \(s\) vendida <br>a la red en el mes \(i\). Es el <strong>descuento por compensación</strong></li> 
+    </ul>
+  </section>
+
+
+  <section class="slide" id="d9">
+    <h1>Proceso evolutivo</h1>
+    <p>En total, se han implementado <strong>cuatro</strong> optimizadores en función de si el enfoque empleado es <strong>generacional</strong> o <strong>estacionario</strong> y de si se desea mantener todos los módulos con <strong>diferente</strong> o <strong>misma</strong> configuración.</p>
+    <div><img style="height: 7.5em;" src="images/esquema-evol-1.png"></div>
+    <div class="flex">
+      <div class="box secondary">
+        <h3>Enfoque estacionario</h3>
+        <p>Selección aleatoria de dos individuos</p>
+      </div>
+      <div class="box secondary">
+        <h3>Enfoque generacional</h3>
+        <p>Selección por torneo binario</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="d10">
+    <h1>Proceso evolutivo</h1>
+    <p>El <strong>operador de cruce</strong> varía en función de si se desea restringir todos los módulos a una misma configuración</p>
+    <div><img src="images/esquema-evol-2.png"></div>
+    <div class="flex">
+      <div class="box secondary">
+        <h3>Misma orientación</h3>
+        <p>Intercambio de inclinaciones o de orientaciones</p>
+      </div>
+      <div class="box secondary">
+        <h3>Diferente orientación</h3>
+        <p>Cruce en dos puntos</p>
+      </div>
+    </div><br>
+    <div class="box">Misma mutación para todos los algoritmos</div>
+  </section>
+  <section class="comment small">
+    <p>Si lees esto, aquí preguntaré: "¿Y es necesario diseñar un operador de reparación?" Puedes ir pensando la respuesta ;). Recordad que queremos soluciones factibles!</p>
+  </section>
+  <section class="slide" id="d11">
+    <h1>Proceso evolutivo</h1>
+    <p>El <strong>operador de reemplazo</strong> varía en función de la estrategia evolutiva</p>
+    <div><img src="images/esquema-evol-3.png"></div>
+    <div class="flex">
+      <div class="box secondary">
+        <h3>Enfoque estacionario</h3>
+        <p>Reemplazo de los dos peores individuos de la población</p>
+      </div>
+      <div class="box secondary">
+        <h3>Enfoque generacional</h3>
+        <p>Elitismo con \(k=1\)</p>
+      </div>
+    </div><br>
+  </section>
+
+  <section class="slide" id="d12">
+    <h1>¿Qué algoritmo usar?</h1>
+    <p>Tras realizar cuatro experimentos, se llegó a las siguientes conclusiones</p>
+    <div class="space"></div>
+    <div class="space"></div>
+    <br>
+    <div class="flex">
+      <div class="box next secondary"><strong>Calidad de las soluciones</strong>
+        <div class="">
+          La diferencia entre la calidad de las soluciones del enfoque estacionario respecto al generacional no son significativas.
+        </div>
+      </div>
+      <div class="box next secondary"><strong>Tiempo de ejecución</strong>
+        <div class="next">
+          El modelo estacionario realiza menos llamadas a la función objetivo y aplica un menor número de veces los operadores genéticos.
+        </div></div>
+      <div class="box next secondary"><strong>Balance entre exploración y explotación</strong>
+        <div class="">
+          Se intuye que el modelo generacional presenta una alta presión selectiva, impidiendo una buena exploración del espacio de búsqueda.
+        </div></div>
+    </div>
+    <div class="space"></div>
+    <div class="space"></div>
+  </section>
+  <section class="comment small">
+    <p>Aunque, como bien sabrás, por naturaleza el modelo generacional posee una presión selectiva más alta. Sobre todo, porque generalmente reemplaza a los peores individuos de la población al ser elitista por naturaleza.</p>
+  </section>
+
+  <section class="cover slide clear " id="refx">
+    <img class="cover" src="images/ts_bg.jpg"
+    alt="Landscape loss" />
+    <h1>Métodos predictivos</h1>
+  </section>
+
+  <section class="cover slide clear " id="refx">
+    <img class="cover" src="images/ts_bg.jpg"
+    alt="Landscape loss" />
+    <h1>Métodos descriptivos</h1>
+  </section>
+
+  <section class="cover slide clear " id="refx">
+    <img class="cover" src="images/ts_bg.jpg"
+    alt="Landscape loss" />
+    <h1>Práctica</h1>
+  </section>
+
+  <section class="slide" id="refx1">
+    <h1>A tener en cuenta</h1>
+      <div class="box secondary">
+        <strong>Interdisciplinariedad</strong><br>Aunque la informática tiene múltiples aplicaciones, no podemos dominar todos los campos. Es necesario el <strong>apoyo de expertos</strong> y una <strong>buena comunicación</strong> entre ambos.
+      </div>
+      <br>
+      <div class="box secondary">
+        <strong>Algoritmos genéticos</strong><br>Útiles para problemas complejos por su <strong>facilidad de implementación</strong> y <strong>versatilidad</strong><br><div class="box">¡¡CUIDADO CON LA PRESIÓN SELECTIVA Y LA CONVERGENCIA PREMATURA!!<br>Es necesario un balance entre la <strong>exploración y explotación</strong> del espacio de búsqueda</div>
+      </div>
+      <br>
+      <div class="box secondary">
+        <strong>Alternativas</strong><br>¿Qué otras técnicas de optimización se podrían aplicar a este problema?
+      </div>
+  </section>
+
+  <section class="comment small">
+    <p>Sobre las alternativas...</p>
+    <p>Pista: La función objetivo es continua en todo \(R\). ¿Te suena de algo?</p>
+    <p>Pista: ¿Nos limitamos solo a métodos de búsqueda por poblaciones? Hay más tipos.. ¿verdad?</p>
+    <p>Pista: ¿Y si los mezclamos? <i>No Free Lunch Theorem</i></p>
+    <p>¡Y más pistas que podría poner! Recordad que lo bonito de las metaheurísticas es que se pueden <strong>adaptar a cualquier problema</strong>.</p>
+  </section>
+  
+  <script>
+    (function() {
+      let toc_slide = document.querySelector(".maketoc")
+      let current_section = ""
+      let current_section_id = ""
+      let slides = document.querySelectorAll(".slide")
+
+      for (let i = 0; i < slides.length; ++i) {
+        if (slides[i].classList.contains("cover") && !slides[i].classList.contains("titleslide")) {
+          current_section = slides[i].querySelector("h1").textContent;
+          current_section_id = slides[i].id;
+          if (slides[i].classList.contains("noshow")) continue;
+          toc_slide.insertAdjacentHTML('beforeend', `<li><a class=internal href="#${current_section_id}">${current_section}</a></li>`)
+        } else if (!slides[i].classList.contains("clear")) {
+          slides[i].insertAdjacentHTML('beforeend', `<footer><a class=internal href="#${current_section_id}">${current_section}</a></footer>`)
+        }
+      }
+    })()
+  </script>
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+
+  <!-- automatically render math in text elements -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+      onload="renderMathInElement(document.body);"></script>
+  
+      <link rel="stylesheet"
+      href="assets/css/nord.min.css">
+  <script defer src="assets/js/highlight.min.js"></script>
+  
+  <script>window.addEventListener("load", function() {hljs.highlightAll();})</script>
+ </body>
+</html>
