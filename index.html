@@ -111,7 +111,7 @@ cut-in
   <section class="cover slide clear " id="intro">
     <img class="cover" src="images/ts_bg.jpg"
     alt="Landscape loss" />
-    <h1>¿Qué es una serie temporal?</h1>
+    <h1>Introducción a las series temporales</h1>
   </section>
   
   
@@ -144,7 +144,46 @@ cut-in
       <li>\(x_0, x_1, x_2, ..., x_t\) son las <strong>observaciones</strong> recogidas a lo largo del tiempo (\(t\)). Una observación puede contener <strong>una</strong> medición o <strong>varias</strong> mediciones.</li>
     </ul>
   </div>
-  <img style="height: 35%;" class="next" src="images/ts-yellowstone.jpg">
+  <img style="height: 35%;" class="next" src="images/ts.png">
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Patrones de una serie temporal</h1>
+  A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
+  <h2>Tendencia</h2>
+  Responde a la pregunta <strong>¿Cómo se comportan los datos a largo plazo?</strong>
+  <img class="next" src="images/ts_trend.png">
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Patrones de una serie temporal</h1>
+  A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
+  <h2>Estacionalidad</h2>
+  Responde a la pregunta <strong>¿Qué patrones recurrentes se observan en los datos?</strong>
+  <img class="next" src="images/ts_seasonality.png">
+  <div class="box secondary next"><strong>¡OJO!</strong> Se habla de estacionalidad cuando estos patrones siguen <strong>siempre una misma frecuencia y duración.</strong></div>
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Patrones de una serie temporal</h1>
+  A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
+  <h2>Ciclicidad</h2>
+  Responde a la pregunta <strong>¿Qué fluctuaciones en los datos ocurren de forma irregular?</strong><br><br>
+  <div class="box primary next">Los <strong>ciclos</strong> NO tienen una frecuencia fija, pero suelen estar relacionados con fenómenos más amplios, como ciclos económicos.</div>
+  
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Ciclicidad y estacionalidad</h1>
+  <img src="images/ts_cyclic.png">
+  <p class="next">¿Puedes determinar el <strong>efecto estacional</strong> y los <strong>ciclos</strong> presentes en esta serie?</p>
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Ciclicidad y estacionalidad</h1>
+  <img src="images/ts_cyclic_tag.png">
+  <p>Existen <strong>3 ciclos</strong> en esta serie. Podemos ver que el primero tiene una duración mucho mayor que los otros dos y que ambos se comportan igual.</p>
+  <div class="box primary next">La ciclicidad es <strong>dificil</strong> de extraer y modelar, a diferencia de la <strong>estacionalidad</strong></div>
 </section>
 
 
@@ -167,7 +206,7 @@ cut-in
   </section>
   
   <section class="slide" id="d2">
-    <h1>Descripción inicial</h1>
+    <h1>Estadísticos univariables</h1>
     <br>
     FotoV es una <strong>aplicación web</strong> que permite a <strong>cualquier usuario</strong> obtener un <strong>dimensionado</strong> adecuado a sus necesidades.
     Entre sus funcionalidades, destacan:
