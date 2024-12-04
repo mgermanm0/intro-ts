@@ -170,7 +170,6 @@ cut-in
   <h2>Ciclicidad</h2>
   Responde a la pregunta <strong>¿Qué fluctuaciones en los datos ocurren de forma irregular?</strong><br><br>
   <div class="box primary next">Los <strong>ciclos</strong> NO tienen una frecuencia fija, pero suelen estar relacionados con fenómenos más amplios, como ciclos económicos.</div>
-  
 </section>
 
 <section class="slide" id="moti2">
@@ -186,19 +185,43 @@ cut-in
   <div class="box primary next">La ciclicidad es <strong>dificil</strong> de extraer y modelar, a diferencia de la <strong>estacionalidad</strong></div>
 </section>
 
+<section class="slide" id="moti2">
+  <h1>Estacionariedad</h1>
+  <p>Es una propiedad <strong>muy interesante</strong> y que conviene <strong>mantenerla o conseguirla</strong>.</p>
+  <div class="box primary next">Una serie es <strong>estacionaria</strong> si sus propiedades estadísticas <strong>no</strong> dependen del tiempo.</div>
+  <p>Dos tipo de estacionariedad:</p>
+  <ul class="incremental" style="max-width: 25em; margin-left: auto; margin-right: auto;">
+    <li><strong>Fuerte</strong>, si <strong>todas</strong> las propiedades se mantienen a lo largo del tiempo.</li>
+    <li><strong>Débil</strong>, si solo la <strong>media y varianza</strong> se mantienen a lo largo del tiempo.</li>
+  </ul>
+  <div class="box secondary">La <strong>estacionalidad fuerte</strong> es muy difícil de conseguir.</div>
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Estacionariedad</h1>
+  <p>¿Es estacionaria? ¿Fuerte o debil? (Pista: Observa los recuadros rojos)</p>
+  <img style="height: 75%;" src="images/estacionaria-no.png">
+</section>
+
+<section class="slide" id="moti2">
+  <h1>Estacionariedad</h1>
+  <p>¿Es estacionaria? ¿Fuerte o debil?</p>
+  <img style="height: 75%;" src="images/estacionaria-debil.png">
+</section>
+
 
   <section class="slide cover clear" id="d1">
     <img class="cover" src="images/ts_bg.jpg"
     alt="Abstract nodes and connections" />
     <div>
       <div class="flex">
-        <h1>Análisis exploratorio</h1>
+        <h1>Análisis exploratorio y preprocesamiento</h1>
       </div>
     </div>
   </section>
 
   <section class="slide" id="moti2">
-    <h1>Propiedades de una serie temporal</h1>
+    <h1>Propiedades de una serie</h1>
     <p>A diferencia de otros tipos de datos... ¿Qué es lo que diferencia a las <strong>series temporales</strong>?</p>
     <p class="next">Es necesario tener en cuenta las <strong>dependencias temporales</strong> que presentan las observaciones.</p>
     <p class="next">¿Podremos usar técnicas de análisis que <strong>no consideren</strong> el orden de nuestras mediciones?</p>
@@ -206,225 +229,117 @@ cut-in
   </section>
   
   <section class="slide" id="d2">
-    <h1>Estadísticos univariables</h1>
-    <br>
-    FotoV es una <strong>aplicación web</strong> que permite a <strong>cualquier usuario</strong> obtener un <strong>dimensionado</strong> adecuado a sus necesidades.
-    Entre sus funcionalidades, destacan:
-    <div class="flex" style="margin-top: 2em;">
-      <!-- <ul class="incremental"> -->
-          <div class="box next secondary">Optimización del dimensionado fotovoltaico para minimizar el coste energético de un hogar</div>
-          <div class="box next secondary">Visualización de los resultados mediante gráficas y tablas resumen</div>
-          <div class="box next secondary">Simulación de dimensionados introducidos por el usuario</div>
-          <div class="box next secondary">Posibilidad de optimizar dimensionados ya existentes</div>
-      <!-- </ul> -->
-    </div>
-    <br>
-    <div class="box next">Nos centraremos en el diseño de los <strong>métodos evolutivos</strong></div>
+    <h1>Primer contacto</h1>
+    <p>Como primer acercamiento a conocer nuestros datos, podemos obtener características como la <strong>media</strong>, <strong>mediana</strong>, <strong>desviación</strong> y los <strong>cuartiles</strong>.</p>
+    <p>Adicionalmente, podemos <strong>graficar</strong> nuestra serie e incluso elaborar un <strong>diagrama de bigotes</strong> para detectar valores anómalos. También puede servir un <strong>historgrama</strong>.</p>
+    <p>Es importante determinar si la serie presenta <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>estacionariedad</strong></p>
+    <p>Y, por último, responder a la pregunta: <strong>¿Qué observaciones son las más interesantes?</strong></p>
+    <div class="box secondary">¿Cómo lo hacemos?</div>
   </section>
 
-  <!-- <section class="slide" id="a1s3">
-    <h1>Taxonomía</h1>
-    <iframe src="assets/taxonomy.pdf#toolbar=0"></iframe> -->
-  <!-- </section> -->
   <section class="slide" id="d3">
-    <h1>Representación de la solución</h1>
-    <p>Un sistema fotovoltaico posee muchos componentes. ¿Qué es necesario <strong>modelar</strong>?</p>
-    <div><img src="images/solarred.gif"></div>
+    <h1>Descomposición de una serie temporal</h1>
+    <p>Una serie temporal \(S\) se puede expresar como una <strong>combinación de sus características</strong>. La más común es la descomposición STL.</p>
+    <div>$$S = T_S \circ E_S \circ R_S$$</div></div>
+    <p>Donde:</p>
+    <ul class="incremental" style="max-width: 25em; margin-left: auto; margin-right: auto;">
+      <li> \(T_S\) es la tendencia de la serie.</li>
+      <li> \(E_S\) es su efecto estacional/patrones estacionales.</li>
+      <li> \(R_S\) son los residuos, es decir, lo restante.</li>
+      <li> \(\circ = \{+,\cdot\}\), operador de composición. Puede ser aditiva o multiplicativa.</li>
+    </ul>
+    <div class="box secondary">La descomposición STL está basada en la <strong>regresión LOESS/LOWESS</strong>.</div>
+  </section>
+
+  <section class="comment small">
+    La STL sigue un procedimiento para extraer las propiedades de una serie temporal (tendencia, estacionalidad y residuos) basado en dos procedimientos recursivos.<br>
+    <ol>
+      <li>Bucle interior: Extrae la tendencia y los patrones estacionales. Usa Regresión LOESS y medias móviles en sus pasos para ello. Primero calcula el componente estacional y luego la tendencia.</li>
+      <li>Bucle exterior: Aporta robustez a los resultados del bucle interior. Calcula pesos que son usados en la siguiente ejecución del bucle interior para reducir la influencia de comportamientos anómalos a la hora de calcular la tendencia y la estacionalidad.</li>
+    </ol>
+    Para saber más: <a href="https://www.wessa.net/download/stl.pdf">Cleveland, R.B. and Cleveland, W.S. (1990) STL: A Seasonal-Trend Decomposition Procedure Based on Loess. Journal of Official Statistics, 6, 3-33. </a>
+    <br><br>
+    También, decir que un buen método de descomposición (y, como veremos, de predicción), generará unos residuos que siguen una distribución normal. Es decir, que su comportamiento se asimila a un ruido blanco. Si en los residuos detectamos patrones estacionales o tendencias, quiere decir que nuestro método de descomposición (o predicción) no ha sido capaz de extraer toda la información relevante de la serie para cumplir su objetivo.
   </section>
 
   <section class="slide" id="d4">
-    <h1>Representación de la solución</h1>
-    <p>Un <strong>módulo</strong> posee una inclinación (\(\alpha\)) y acimut (\(\beta\)) respecto al Sol.</p>
-    <br>
-    <div style="margin:auto; width:35em"><img src="images/inc-acimut.png"></div>
+    <h1>Suavizado LOESS</h1>
+    <div><img style="height: 50%;" src="images/loess.gif"></div>
   </section>
 
   <section class="slide" id="d5">
-    <h1>Representación de la solución</h1>
-    <p>Un <strong>individuo</strong> del sistema es un conjunto de <strong>módulos</strong>. <br>Un módulo posee una inclinación (\(\alpha\)) y acimut (\(\beta\)) respecto al Sol.<br>Todos los módulos del sistema poseen una misma potencia.</p>
-    <div style="margin:auto; width:35em"><img src="images/representacion.drawio.png"></div>
-    <br>
-    <div class="box secondary">Por lo tanto, el total de módulos vendrá dado por la expresión $$N=\left \lceil{\frac{pot_{total}}{pot_{modulo}}}\right \rceil$$</div>
-  </section>
-
-  <section class="slide" id="d6">
-    <h1>Parámetros principales de entrada</h1>
-    <br><br>
-    <div class="flex">
-      <div class="box secondary">
-        <h3 class="next">Dados por el usuario</h3>
-        <ul class="left next">
-          <li>Latitud y longitud</li>
-          <li>Modelo del algoritmo <br> <i>(Generacional o Estacionario)</i></li>
-          <li>Tipo de experimento</li>
-          <li>Potencia deseada total</li>
-          <li>Potencia de un módulo</li>
-          <li><strong>Curva de consumo</strong></li>
-        </ul>
-      </div>
-      <div class="box secondary">
-        <h3 class="next">Propios del algoritmo</h3>
-        <ul class="left next">
-          <li>Tamaño de la población</li>
-          <li>Condición de parada</li>
-          <li>Tamaño del torneo<br><i>(Enfoque generacional)</i></li>
-          <li>Probabilidad de cruce</li>
-          <li>Probabilidad de mutación<br><i>(Agresiva y suave)</i></li>
-        </ul>
-      </div>
+    <h1>¿Cómo lograr la estacionareidad?</h1>
+    <div class="box primary">Podemos estabilizar las propiedades estadísticas de una serie aplicando <strong>diferenciación</strong>.</div>
+    <p>Llamaremos \(S^{n}\) a la serie resultante de aplicar \(n\) diferenciaciones a partir de \(S\).<br>Una diferenciación de <strong>primer orden</strong> se define como \(S^1 = \{(x_i - x_{i-1}) / x_i, x_{i-1} \in S, \forall i \in \{1,2,..., t\}\}\).</p>
+    <p>¿Y de <strong>segundo orden</strong>?</p>
+    <div>
+      \(S^2 = \{(x_i - x_{i-1}) / x_i, x_{i-1} \in S^{1}, \forall i \in \{1,2,..., t-1\}\}\)
     </div>
+    <p>¿Y de <strong>orden n</strong>?</p>
+    <div>
+      \(S^n = \{(x_i - x_{i-1}) / x_i, x_{i-1} \in S^{n-1}, \forall i \in \{1,2,..., t-n-1\}\}\)
+    </div><br>
+    <div class="box secondary">¿Qué eliminamos en cada diferenciación? ¿Qué ocurre con la longitud de la serie?</div>
   </section>
 
-  <section class="slide" id="d7">
-    <h1>Diseñando la función objetivo</h1>
-    <div class="box">Nuestro objetivo es <strong>minimizar</strong> el coste de la factura energética del usuario.</div>
-    <div class="next"><p>¿Qué datos son necesarios para calcular este coste?</p></div>
-    <ul class="incremental" style="margin-left: auto; margin-right: auto;">
-      <li>De la <strong>curva de consumo</strong>: Energía consumida en cada hora del día</li>
-      <li><strong>Potencias y localización</strong> proporcionados por el usuario.</li>
-      <li>El <strong>precio</strong> de la tarifa de la luz y de la compensación se recogen mediante una <strong>API</strong><br><small>¿Veis algún problema aquí?</small></li>
-      <li>Nuestros individuos son sistemas fotovoltaicos... ¿Qué nos falta?</li>
-  </ul>
-  <div class="box secondary next">Es necesario determinar la <strong>energía generada</strong> por un individio en cada momento de la <strong>curva de consumo</strong> para determinar el <strong>autoconsumo</strong> del hogar y si <strong>exporta</strong> energía</div>
-  <br>
-  <h2 class="next" style="text-align: center;">¿Alguna idea?</h2>
-  </section>
   <section class="comment small">
-    <p>Otra pregunta interesante: ¿Qué pasa con aquellos hogares que ya posean un sistema fotovoltaico a la hora de obtener la energía consumida?</p>
-    <p>Por si te da curiosidad, aquí puedes consultar el precio de la tarifa energética actual: <a href="https://www.esios.ree.es/es/pvpc" target="_blank">ESIOS PVPC</a></p>
+    Dato curioso: Si tenemos una serie con patrones recurrentes cada \(k\) observaciones (es decir, posee patrones estacionales) podemos realizar la diferencia entre el instante \(x_i\) y \(x_{i-k}\) para eliminar el efecto de dicho patrón. A esto se le llama <i>Seasonal Differencing</i>.
+    $$S^{k}_{seasonal} = \{(x_i - x_{i-k}) / x_i, x_{i-k} \in S, \forall i \in \{k,k+1,..., t\}\}$$
+    Eso si, la longitud de la serie resultante se reducirá en \(k\) unidades.
   </section>
 
-  <section class="slide" id="d8">
-    <h1>Diseñando la función objetivo</h1>
+  <section class="slide" id="d5">
+    <h1>Autocorrelación</h1>
     <br>
-    <p>La función objetivo final define como sigue:</p>
-    <div style="margin:auto; width:35em"><img src="images/fo.png"></div>
-    <p>Donde:</p>
+    <br>
+    <div class="box primary">Se denomina <strong>autocorrelación</strong> al grado de correlación de una misma (o mismas) variable (o variables) entre dos intervalos de tiempo sucesivos.</div>
+    <p>En resumen, responde a la pregunta: ¿Cómo de relacionados están <strong>dos instantes</strong> entre si?</p>
+    Principalmente, se emplean dos métodos que se complementan entre ellos:
+    <div class="flex">
+      <div class="box secondary">Función de Autocorrelación<br>(ACF)</div>
+      <div class="box secondary">Función de Autocorrelación Parcial (PACF)</div>
+    </div>
+    <p>Las funciones de autocorrelación suponen que la serie es <strong>estacionaria</strong>.<br><small>Si no la es, es necesario diferenciar...</small></p>
+  </section>
+
+  <section class="slide" id="d5">
+    <br>
+    <h1>Función de Autocorrelación</h1>
+    <br>
+    <div class="box primary">La Función de Autocorrelación (ACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo tanto relaciones directas como indirectas.</div>
+    <p>Es decir, mide la correlación entre el instante actual \(x_t\) y \(x_{t-k}\), donde \(k=\{0, 1, 2, ..., n\}\)</p>
     <ul>
-      <li>\(pec(i,s)\) es el precio de la energía <strong>comprada</strong> a la red el mes \(i\) con el sistema \(s\)</li> 
-      <li>\(pex(i,s)\) es el precio de la energía <strong>excedentaria</strong> del sistema \(s\) vendida <br>a la red en el mes \(i\). Es el <strong>descuento por compensación</strong></li> 
+      <li>Para \(k=0\), la correlación mostrada es \(Corr(x_t, x_t)=1\). Se suele obviar</li>
+      <li>Es útil para determinar si una serie se comporta como <strong>ruido</strong>.</li>
+      <li>Permite saber si se puede emplear un modelo de <strong>media móvil (MA)</strong>.</li>
+    </ul>
+    <div class="box secondary">¿Que querrá decir que incluye las relaciones <strong>indirectas</strong>?</div>
+  </section>
+
+  <section class="slide" id="d5">
+    <br>
+    <h1>Función de Autocorrelación Parcial</h1>
+    <br>
+    <div class="box primary">La Función de Autocorrelación Parcial (PACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo <strong>SOLO RELACIONES DIRECTAS</strong>.</div>
+    <p>Es decir, mide la correlación <strong>directa</strong> entre el instante actual \(x_t\) y \(x_{t-k}\), donde \(k=\{0, 1, 2, ..., n\}\)</p>
+    <ul>
+      <li>Para \(k=0\), la correlación mostrada es \(Corr(x_t, x_t)=1\). Se suele obviar</li>
+      <li>Permite saber si se puede emplear un modelo <strong>autorregresivo (AR)</strong>.</li>
     </ul>
   </section>
-
-
-  <section class="slide" id="d9">
-    <h1>Proceso evolutivo</h1>
-    <p>En total, se han implementado <strong>cuatro</strong> optimizadores en función de si el enfoque empleado es <strong>generacional</strong> o <strong>estacionario</strong> y de si se desea mantener todos los módulos con <strong>diferente</strong> o <strong>misma</strong> configuración.</p>
-    <div><img style="height: 7.5em;" src="images/esquema-evol-1.png"></div>
-    <div class="flex">
-      <div class="box secondary">
-        <h3>Enfoque estacionario</h3>
-        <p>Selección aleatoria de dos individuos</p>
-      </div>
-      <div class="box secondary">
-        <h3>Enfoque generacional</h3>
-        <p>Selección por torneo binario</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" id="d10">
-    <h1>Proceso evolutivo</h1>
-    <p>El <strong>operador de cruce</strong> varía en función de si se desea restringir todos los módulos a una misma configuración</p>
-    <div><img src="images/esquema-evol-2.png"></div>
-    <div class="flex">
-      <div class="box secondary">
-        <h3>Misma orientación</h3>
-        <p>Intercambio de inclinaciones o de orientaciones</p>
-      </div>
-      <div class="box secondary">
-        <h3>Diferente orientación</h3>
-        <p>Cruce en dos puntos</p>
-      </div>
-    </div><br>
-    <div class="box">Misma mutación para todos los algoritmos</div>
-  </section>
   <section class="comment small">
-    <p>Si lees esto, aquí preguntaré: "¿Y es necesario diseñar un operador de reparación?" Puedes ir pensando la respuesta ;). Recordad que queremos soluciones factibles!</p>
+    <ul>
+      <li><strong>Tendencia:</strong> La ACF disminuye lentamente con lags crecientes.</li>
+      <li><strong>Estacionalidad:</strong> La ACF muestra picos en múltiplos del período estacional.</li>
+      <li><strong>Tendencia + Estacionalidad:</strong> La ACF combina una disminución lenta y un patrón ondulado.</li>
+    </ul>
   </section>
-  <section class="slide" id="d11">
-    <h1>Proceso evolutivo</h1>
-    <p>El <strong>operador de reemplazo</strong> varía en función de la estrategia evolutiva</p>
-    <div><img src="images/esquema-evol-3.png"></div>
-    <div class="flex">
-      <div class="box secondary">
-        <h3>Enfoque estacionario</h3>
-        <p>Reemplazo de los dos peores individuos de la población</p>
-      </div>
-      <div class="box secondary">
-        <h3>Enfoque generacional</h3>
-        <p>Elitismo con \(k=1\)</p>
-      </div>
-    </div><br>
-  </section>
+  
 
-  <section class="slide" id="d12">
-    <h1>¿Qué algoritmo usar?</h1>
-    <p>Tras realizar cuatro experimentos, se llegó a las siguientes conclusiones</p>
-    <div class="space"></div>
-    <div class="space"></div>
-    <br>
-    <div class="flex">
-      <div class="box next secondary"><strong>Calidad de las soluciones</strong>
-        <div class="">
-          La diferencia entre la calidad de las soluciones del enfoque estacionario respecto al generacional no son significativas.
-        </div>
-      </div>
-      <div class="box next secondary"><strong>Tiempo de ejecución</strong>
-        <div class="next">
-          El modelo estacionario realiza menos llamadas a la función objetivo y aplica un menor número de veces los operadores genéticos.
-        </div></div>
-      <div class="box next secondary"><strong>Balance entre exploración y explotación</strong>
-        <div class="">
-          Se intuye que el modelo generacional presenta una alta presión selectiva, impidiendo una buena exploración del espacio de búsqueda.
-        </div></div>
-    </div>
-    <div class="space"></div>
-    <div class="space"></div>
-  </section>
-  <section class="comment small">
-    <p>Aunque, como bien sabrás, por naturaleza el modelo generacional posee una presión selectiva más alta. Sobre todo, porque generalmente reemplaza a los peores individuos de la población al ser elitista por naturaleza.</p>
-  </section>
 
-  <section class="cover slide clear " id="refx">
-    <img class="cover" src="images/ts_bg.jpg"
-    alt="Landscape loss" />
-    <h1>Métodos predictivos</h1>
-  </section>
-
-  <section class="cover slide clear " id="refx">
-    <img class="cover" src="images/ts_bg.jpg"
-    alt="Landscape loss" />
-    <h1>Métodos descriptivos</h1>
-  </section>
-
-  <section class="cover slide clear " id="refx">
-    <img class="cover" src="images/ts_bg.jpg"
-    alt="Landscape loss" />
-    <h1>Práctica</h1>
-  </section>
-
-  <section class="slide" id="refx1">
-    <h1>A tener en cuenta</h1>
-      <div class="box secondary">
-        <strong>Interdisciplinariedad</strong><br>Aunque la informática tiene múltiples aplicaciones, no podemos dominar todos los campos. Es necesario el <strong>apoyo de expertos</strong> y una <strong>buena comunicación</strong> entre ambos.
-      </div>
-      <br>
-      <div class="box secondary">
-        <strong>Algoritmos genéticos</strong><br>Útiles para problemas complejos por su <strong>facilidad de implementación</strong> y <strong>versatilidad</strong><br><div class="box">¡¡CUIDADO CON LA PRESIÓN SELECTIVA Y LA CONVERGENCIA PREMATURA!!<br>Es necesario un balance entre la <strong>exploración y explotación</strong> del espacio de búsqueda</div>
-      </div>
-      <br>
-      <div class="box secondary">
-        <strong>Alternativas</strong><br>¿Qué otras técnicas de optimización se podrían aplicar a este problema?
-      </div>
-  </section>
-
-  <section class="comment small">
-    <p>Sobre las alternativas...</p>
-    <p>Pista: La función objetivo es continua en todo \(R\). ¿Te suena de algo?</p>
-    <p>Pista: ¿Nos limitamos solo a métodos de búsqueda por poblaciones? Hay más tipos.. ¿verdad?</p>
-    <p>Pista: ¿Y si los mezclamos? <i>No Free Lunch Theorem</i></p>
-    <p>¡Y más pistas que podría poner! Recordad que lo bonito de las metaheurísticas es que se pueden <strong>adaptar a cualquier problema</strong>.</p>
+  <section class="slide" id="d5">
+    <h1>Test estadísticos útiles</h1>
+    
   </section>
   
   <script>
