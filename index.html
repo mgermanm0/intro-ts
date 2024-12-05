@@ -88,15 +88,15 @@ cut-in
     <div class="right-side">
       <img class="cover less-bright" src="images/ts_bg.jpg"/>
       <h1 style="line-height: 1.8em;">
-        Introducción al<br>
-        <span class="largest"><i>Análisis de series temporales</i></span>
+        Introducción a la<br>
+        <span class="largest"><i>Predicción de Series Temporales</i></span>
       </h1>
-      <p class="subtitle">Predicción de [temática aquí]<br>Minería de Datos - Curso 2024/2025</p>
+      <p class="subtitle">Minería de Datos - Curso 2024/2025</p>
       <p class="institution">Grupo de investigación de Sistemas Inteligentes y Minería de Datos</p>
       <p class="subtitle">SiMiDat</p><br>&nbsp;
       <p class="author">Manuel Germán Morales
         <a href="mailto:mgerman@ujaen.es" >&lt;mgerman@ujaen.es&gt;</a></p>
-      <p class=note>12 de noviembre de 2024<br>
+      <p class=note>5 de diciembre de 2024<br>
     </div>
   </section>
 
@@ -281,7 +281,9 @@ cut-in
     </div><br>
     <div class="box secondary">¿Qué eliminamos en cada diferenciación? ¿Qué ocurre con la longitud de la serie?</div>
   </section>
-
+  <section class="small comment">
+    Existen otras técnicas para lograr la estacionariedad, que por tiempo no hablaré mucho de ellas, pero si te da curiosidad puedes consultar <a href="https://otexts.com/fpp3/transformations.html">este enlace</a> para saber más sobre <strong>transformaciones logarítimicas</strong> y de <strong>Box-Cox</strong>.
+  </section>
   <section class="comment small">
     Dato curioso: Si tenemos una serie con patrones recurrentes cada \(k\) observaciones (es decir, posee patrones estacionales) podemos realizar la diferencia entre el instante \(x_i\) y \(x_{i-k}\) para eliminar el efecto de dicho patrón. A esto se le llama <i>Seasonal Differencing</i>.
     $$S^{k}_{seasonal} = \{(x_i - x_{i-k}) / x_i, x_{i-k} \in S, \forall i \in \{k,k+1,..., t\}\}$$
@@ -303,7 +305,6 @@ cut-in
   </section>
 
   <section class="slide" id="d5">
-    <br>
     <h1>Función de Autocorrelación</h1>
     <br>
     <div class="box primary">La Función de Autocorrelación (ACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo tanto relaciones directas como indirectas.</div>
@@ -311,13 +312,31 @@ cut-in
     <ul>
       <li>Para \(k=0\), la correlación mostrada es \(Corr(x_t, x_t)=1\). Se suele obviar</li>
       <li>Es útil para determinar si una serie se comporta como <strong>ruido</strong>.</li>
-      <li>Permite saber si se puede emplear un modelo de <strong>media móvil (MA)</strong>.</li>
+      <li>También permite saber si la serie presenta patrones estacionales.</li>
+      <li>Además, informa de si se puede emplear un modelo de <strong>media móvil (MA)</strong>.</li>
     </ul>
     <div class="box secondary">¿Que querrá decir que incluye las relaciones <strong>indirectas</strong>?</div>
   </section>
 
   <section class="slide" id="d5">
-    <br>
+    <h1>Función de Autocorrelación: Ejemplo</h1>
+    <p>La siguiente serie describe el precio de las acciones de Google al cerrar la bolsa en diferentes momentos. ¿Recordáis que <strong>propiedad</strong> es necesaria para calcular la ACF?</p>
+    <img style="height: 75%;" src="images/ts_google.PNG"/>
+  </section>
+
+  <section class="slide" id="d5">
+    <h1>Función de Autocorrelación: Ejemplo</h1>
+    <p>ACF de la serie, sin estacionariedad. ¿Qué observamos?</p>
+    <img style="height: 75%;" src="images/ts_google_acf_ne.PNG"/>
+  </section>
+
+  <section class="slide" id="d5">
+    <h1>Función de Autocorrelación: Ejemplo</h1>
+    <p>ACF de la serie, tras aplicar la primera diferencia. ¡Ahora todo está más claro!</p>
+    <img style="height: 75%;" src="images/ts_google_acf_est.PNG"/>
+  </section>
+
+  <section class="slide" id="d5">
     <h1>Función de Autocorrelación Parcial</h1>
     <br>
     <div class="box primary">La Función de Autocorrelación Parcial (PACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo <strong>SOLO RELACIONES DIRECTAS</strong>.</div>
@@ -327,6 +346,7 @@ cut-in
       <li>Permite saber si se puede emplear un modelo <strong>autorregresivo (AR)</strong>.</li>
     </ul>
   </section>
+
   <section class="comment small">
     <ul>
       <li><strong>Tendencia:</strong> La ACF disminuye lentamente con lags crecientes.</li>
@@ -338,10 +358,246 @@ cut-in
 
 
   <section class="slide" id="d5">
-    <h1>Test estadísticos útiles</h1>
-    
-  </section>
-  
+    <h1>Test estadísticos útiles para series temporales</h1>
+    <br><br>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Prueba</th>
+                <th>Uso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dickey-Fuller aumentada (ADF)</td>
+                <td>Determinar si una serie temporal es estacionaria</td>
+            </tr>
+            <tr>
+                <td>KPSS</td>
+                <td>Evaluar la estacionariedad bajo una hipótesis diferente (contraste a ADF)</td>
+            </tr>
+            <tr>
+                <td>Ljung-Box</td>
+                <td>Verificar la independencia de los residuos (autocorrelación)</td>
+            </tr>
+            <tr>
+              <td>Box-Pierce</td>
+              <td>Simplificación de Ljung-Box.</td>
+          </tr>
+        </tbody>
+    </table>
+</section>
+<section class="comment small">
+  Otro dato curioso: KPSS son las siglas de los autores del test (Kwiatkowski-Phillips-Schmidt-Shin).
+</section>
+
+<section class="slide cover clear" id="d1">
+  <img class="cover" src="images/ts_bg.jpg"
+  alt="Abstract nodes and connections" />
+  <div>
+    <div class="flex">
+      <h1>Modelos predictivos</h1>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>Introducción</h1>
+  <p>El objetivo de la tarea de <strong>Predicción de Series Temporales</strong> es determinar las \(H\) siguientes observaciones de una serie temporal \(S \in \mathbb{R}^{c \times n}\). Queremos encontrar una función \(f\) tal que:</p>
+  <div>
+    $$f:  X=\{x_0, x_1, x_2, x_3, ..., x_t\} \rightarrow \hat{Y}=\{\hat{y}_{t+1}, \hat{y}_{t+2}, ..., \hat{y}_{t+H}\}$$
+  </div>
+  <p>tal que \(Error(f(S), Y) = Error(\hat{Y}, Y)\) sea <strong>0</strong>.</p>
+  <p>Como conseguir <strong>la función perfecta</strong> es inabordable, usaremos un modelo \(\tilde{f}\) que aproxime a \(f\) y que logre <strong>minimizar</strong> el error.</p>
+  <p class="next">Los <strong>métodos</strong> que vamos a ver requieren que la serie sea <strong>estacionaria</strong>. Sin emabargo, hay modelos que <strong>son capaces de lidiar con la no estacionariedad</strong>.</p>
+  <div class="box secondary next">¿Creeis que los modelos que ya habéis visto pueden usarse para la tarea de Predicción de Series Temporales?</div>
+  <br>
+  <div class="box primary next"><strong>SI lo son</strong>. Desde un simple kNN o regresión hasta un Random Forest.</div>
+</section>
+
+<section class="slide">
+  <h1>Modelo Autorregresivo (AR)</h1>
+  <p>AR supone que las predicciones <strong>son una combinación lineal</strong> de las observaciones.</p>
+  <div>
+    $$\hat{y}_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \ldots + \phi_p x_{t-p} + \varepsilon_t$$
+  </div>
+  <p>donde:</p>
+  <ul>
+    <li>\(\hat{y}_t\): predicción de la serie temporal en el tiempo \(t\).</li>
+    <li>\(\phi_1, \phi_2, \ldots, \phi_p\): coeficientes autorregresivos. Estimados mediante Máxima Verosimilitud o Mínimos Cuadrados.</li>
+    <li>\(p\): orden del modelo AR. Número de observaciones a usar para predecir el siguiente valor. Se determina mediante la PACF.</li>
+    <li>\(\varepsilon_t\): término de error aleatorio.</li>
+  </ul>
+  <p><strong>¡IMPORTANTE!</strong> Al ser autorregresivo... ¿Qué ocurre cuando \(H>1\)?</p>
+  <div class="box secondary next">¿Qué ventajas creéis que tiene el modelo AR frente a métodos más complejos?</div>
+</section>
+
+<section class="slide">
+  <h1>Modelo de Medias Móviles (MA)</h1>
+  <p>MA supone que las predicciones <strong>son una combinación lineal de errores pasados</strong> (ruido blanco).</p>
+  <div>
+    $$\hat{y}_t = \mu + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \ldots + \theta_q \varepsilon_{t-q}$$
+  </div>
+  <p>donde:</p>
+  <ul>
+    <li>\(\hat{y}_t\): predicción de la serie temporal en el tiempo \(t\).</li>
+    <li>\(\mu\): media o nivel de la serie temporal.</li>
+    <li>\(\theta_1, \theta_2, \ldots, \theta_q\): coeficientes de medias móviles. Estimados mediante Máxima Verosimilitud o Mínimos Cuadrados.</li>
+    <li>\(q\): orden del modelo MA. Número de errores a usar. Se determina mediante la ACF.</li>
+    <li>\(\varepsilon_t\): término de error aleatorio (ruido blanco).</li>
+  </ul>
+  <p><strong>¡IMPORTANTE!</strong> Al ser dependiente de errores pasados... ¿Qué sucede si el modelo no captura bien estos errores?</p>
+</section>
+
+<section class="slide">
+  <h1>Modelo ARIMA</h1>
+  <p>ARIMA <strong>combina</strong> componentes <strong>AR</strong>, <strong>MA</strong> e <strong>I</strong> (Integración) para modelar series temporales no estacionarias.</p>
+  <div>
+    $$\hat{y}_t = \mu\ + \sum_{i=1}^{p} \phi_i \cdot x_{t-i}^d + \sum_{j=1}^{q} \theta_j \cdot \varepsilon_{t-j}$$
+  </div>
+  <p>donde:</p>
+  <ul>
+    <li>\(\hat{y}_t\): predicción de la serie en \(t\).</li>
+    <li>\(p\): orden del componente AR.</li>
+    <li>\(q\): orden del componente MA.</li>
+    <li>\(d\): número de diferencias para estacionarizar la serie. Si es estacionaria, \(d=0\).</li>
+  </ul>
+  Determinamos los <strong>parámetros p, q y d</strong> de la siguiente manera:
+  <ul>
+    <li>\(d\): Usar pruebas de raíz unitaria o gráficas para ver si la serie es estacionaria.</li>
+    <li>\(p\) y \(q\): Determinar con las gráficas ACF y PACF (donde se cortan).</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>Otros modelos</h1>
+  <br>
+  <div class="flex" style="margin-left: 3em; margin-right: 3em; font-size: large;">
+        <div class="box next secondary">ARIMAX</div>
+        <div class="box next secondary">SARIMA</div>
+        <div class="box next secondary">SARIMAX</div>
+        <div class="box next secondary">ETS</div>
+        <div class="box next secondary">PROPHET</div>
+        <div class="box next">Basados en ML/DL</div>
+  </div>
+  <br><br>
+</section>
+
+<section class="slide cover clear" id="d1">
+  <img class="cover" src="images/ts_bg.jpg"
+  alt="Abstract nodes and connections" />
+  <div>
+    <div class="flex">
+      <h1>Ajuste y evaluación</h1>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>Particionado del conjunto de datos</h1>
+  <br>
+  <p>¿Podemos usar un muestreo <strong>aleatorio</strong> con reemplazo (<i>hold-out</i>) convencional?
+  <div class="box primary next"><strong>NO</strong>, ya que no conserva el orden de los datos</div>
+  <p class="next">Es común <strong>dividir</strong> la serie a partir de un momento determinado y usar como <strong>entrenamiento</strong> todo lo anterior.
+  <img class="next" src="images/traintest-1.png"/>
+  <p>Por ejemplo, podemos usar un <strong>80%</strong> de la serie para entrenamiento y el <strong>20%</strong> restante para test.</p>
+  <br>
+</section>
+
+<section class="slide">
+  <h1>Ajuste del modelo</h1>
+  <br>
+  <p>Los modelos presentados hasta ahora siguen enfoques <strong>autorregresivos</strong> y que <strong>dependen</strong> de unos parámetros.</p>
+  <p>Por ejemplo, un modelo AR(p=2) poseerá 2 coeficientes para estimar el valor de la observación a predecir.</p>
+  <div class="box primary">Estos modelos optimizarán sus parámetros que permitan aproximar todos los puntos del conjunto de entrenamiento en función de sus \(p\) anteriores.</div>
+  <p>Siguiendo un ejemplo, si el <strong>tamaño</strong> del conjunto de entrenamiento es de 10, tendremos un sistema de 10-2=8 ecuaciones lineales que se resolverá mediante Mínimos Cuadrados o Máxima Verosimilitud.</p>
+</section>
+
+<section class="slide">
+  <h1>Métricas de Evaluación</h1>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <th>Métrica</th>
+        <th>Fórmula</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mean Absolute Error (MAE)</td>
+        <td>\(\text{MAE} = \frac{1}{n} \sum_{t=1}^{n} |y_t - \hat{y}_t|\)</td>
+      </tr>
+      <tr>
+        <td>Root Mean Squared Error (RMSE)</td>
+        <td>\(\text{RMSE} = \sqrt{\frac{1}{n} \sum_{t=1}^{n} (y_t - \hat{y}_t)^2}\)</td>
+      </tr>
+      <tr>
+        <td>Mean Squared Error (MSE)</td>
+        <td>\(\text{MSE} = \frac{1}{n} \sum_{t=1}^{n} (y_t - \hat{y}_t)^2\)</td>
+      </tr>
+      <tr>
+        <td>Mean Absolute Scaled Error (MASE)</td>
+        <td>\(\text{MASE} = \frac{\text{MAE}}{\text{MAE}_{\text{naive}}}\)</td>
+      </tr>
+      <tr>
+        <td>Mean Absolute Percentage Error (MAPE)</td>
+        <td>\(\text{MAPE} = \frac{1}{n} \sum_{t=1}^{n} \left| \frac{y_t - \hat{y}_t}{y_t} \right| \times 100\)</td>
+      </tr>
+      <tr>
+        <td>Symmetric Mean Absolute Percentage Error (sMAPE)</td>
+        <td>\(\text{sMAPE} = \frac{1}{n} \sum_{t=1}^{n} \frac{|y_t - \hat{y}_t|}{(|y_t| + |\hat{y}_t|)} \times 200\)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>MAE, RMSE, MSE son absolutas. MASE, MAPE y sMAPE relativas.</p>
+</section>
+<section class="slide">
+  <h1>Validación cruzada en TSF</h1>
+  <div class="box">¡¡No podemos emplear la CV convencional debido a que son datos secuenciales!!</div>
+  <p class="next">Alternativa 1: Las particiones son secuenciales y van aumentando. <i>Rolling from origin</i>.</p>
+  <img class="next" src="images/ts-cv.PNG"/>
+</section>
+
+<section class="slide">
+  <h1>Validación cruzada en TSF</h1>
+  <p class="next">Alternativa 2: Las particiones son secuenciales pero no van aumentando. <i>Blocked CV</i>. <br>OJO: Los bloques se pueden solapar.</p>
+  <img class="next" src="images/ts-cv-roll.png"/>
+</section>
+
+<section class="slide">
+  <h1>Validación cruzada en TSF</h1>
+  <br>
+  <p>En resumen:</p>
+  <ol>
+    <li><strong>Particionamos</strong> conjunto de datos en Train-Test.</li>
+    <li>Asignamos <strong>parámetros</strong> a modelos.</li>
+    <li><strong>Aplicamos CV</strong> con el conjunto de entrenamiento, agregamos las métricas por <i>fold</i>.</li>
+    <li>Creamos modelo con los <strong>mejores parámetros</strong>. Lo ajustamos con el <strong>100%</strong> del conjunto de train.</li>
+    <li><strong>Evaluamos</strong> el modelo mediante el conjunto de test.</li>
+  </ol>
+  <br>
+</section>
+<section class="cover slide clear titleslide flex" id=cover>
+  <div class="left-side vertical-logo">
+      <span></span>
+      <img src="images/logo_simidat.png">
+  </div>
+  <div class="right-side">
+    <img class="cover less-bright" src="images/ts_bg.jpg"/>
+    <h1 style="line-height: 1.8em;">
+      Introducción a la<br>
+      <span class="largest"><i>Predicción de Series Temporales</i></span>
+    </h1>
+    <p class="subtitle">Minería de Datos - Curso 2024/2025</p>
+    <p class="institution">Grupo de investigación de Sistemas Inteligentes y Minería de Datos</p>
+    <p class="subtitle">SiMiDat</p><br>&nbsp;
+    <p class="author">Manuel Germán Morales
+      <a href="mailto:mgerman@ujaen.es" >&lt;mgerman@ujaen.es&gt;</a></p>
+    <p class=note>5 de diciembre de 2024<br>
+  </div>
+</section>
+
   <script>
     (function() {
       let toc_slide = document.querySelector(".maketoc")
