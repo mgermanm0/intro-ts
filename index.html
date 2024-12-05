@@ -133,7 +133,7 @@ cut-in
 
   </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="1">
   <h1>¿Qué es una serie temporal?</h1>
   <div class="box next">Una <strong>serie temporal</strong> no es nada más que un conjunto de <strong>observaciones</strong> medidas con una <strong>frecuencia</strong> ordenadas a lo largo del <strong>tiempo</strong></div>
   <div class="next"><p>Podemos expresar una serie temporal \(S\) de la siguiente forma.</p>
@@ -147,7 +147,7 @@ cut-in
   <img style="height: 35%;" class="next" src="images/ts.png">
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="2">
   <h1>Patrones de una serie temporal</h1>
   A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
   <h2>Tendencia</h2>
@@ -155,7 +155,7 @@ cut-in
   <img class="next" src="images/ts_trend.png">
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="3">
   <h1>Patrones de una serie temporal</h1>
   A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
   <h2>Estacionalidad</h2>
@@ -164,7 +164,7 @@ cut-in
   <div class="box secondary next"><strong>¡OJO!</strong> Se habla de estacionalidad cuando estos patrones siguen <strong>siempre una misma frecuencia y duración.</strong></div>
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="4">
   <h1>Patrones de una serie temporal</h1>
   A la hora de describir una serie, usaremos palabras cómo <strong>tendencia</strong>, <strong>estacionalidad</strong> y <strong>ciclicidad</strong>.
   <h2>Ciclicidad</h2>
@@ -172,20 +172,20 @@ cut-in
   <div class="box primary next">Los <strong>ciclos</strong> NO tienen una frecuencia fija, pero suelen estar relacionados con fenómenos más amplios, como ciclos económicos.</div>
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="5">
   <h1>Ciclicidad y estacionalidad</h1>
   <img src="images/ts_cyclic.png">
   <p class="next">¿Puedes determinar el <strong>efecto estacional</strong> y los <strong>ciclos</strong> presentes en esta serie?</p>
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="6">
   <h1>Ciclicidad y estacionalidad</h1>
   <img src="images/ts_cyclic_tag.png">
   <p>Existen <strong>3 ciclos</strong> en esta serie. Podemos ver que el primero tiene una duración mucho mayor que los otros dos y que ambos se comportan igual.</p>
   <div class="box primary next">La ciclicidad es <strong>dificil</strong> de extraer y modelar, a diferencia de la <strong>estacionalidad</strong></div>
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="7">
   <h1>Estacionariedad</h1>
   <p>Es una propiedad <strong>muy interesante</strong> y que conviene <strong>mantenerla o conseguirla</strong>.</p>
   <div class="box primary next">Una serie es <strong>estacionaria</strong> si sus propiedades estadísticas <strong>no</strong> dependen del tiempo.</div>
@@ -197,20 +197,20 @@ cut-in
   <div class="box secondary">La <strong>estacionalidad fuerte</strong> es muy difícil de conseguir.</div>
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="8">
   <h1>Estacionariedad</h1>
   <p>¿Es estacionaria? ¿Fuerte o debil? (Pista: Observa los recuadros rojos)</p>
   <img style="height: 75%;" src="images/estacionaria-no.png">
 </section>
 
-<section class="slide" id="moti2">
+<section class="slide" id="9">
   <h1>Estacionariedad</h1>
   <p>¿Es estacionaria? ¿Fuerte o debil?</p>
   <img style="height: 75%;" src="images/estacionaria-debil.png">
 </section>
 
 
-  <section class="slide cover clear" id="d1">
+  <section class="slide cover clear" id="10">
     <img class="cover" src="images/ts_bg.jpg"
     alt="Abstract nodes and connections" />
     <div>
@@ -220,7 +220,7 @@ cut-in
     </div>
   </section>
 
-  <section class="slide" id="moti2">
+  <section class="slide" id="1">
     <h1>Propiedades de una serie</h1>
     <p>A diferencia de otros tipos de datos... ¿Qué es lo que diferencia a las <strong>series temporales</strong>?</p>
     <p class="next">Es necesario tener en cuenta las <strong>dependencias temporales</strong> que presentan las observaciones.</p>
@@ -228,7 +228,7 @@ cut-in
     <div class="box next"><h3>SI</h3>Podemos usarlas. ¡La descripción básica de los datos se sigue haciendo con estadísticos univariables! Sin embargo, es necesario <i>mejorar</i> otras técnicas y usar test estadísticos específicos para datos secuenciales.</div>
   </section>
   
-  <section class="slide" id="d2">
+  <section class="slide" id="12">
     <h1>Primer contacto</h1>
     <p>Como primer acercamiento a conocer nuestros datos, podemos obtener características como la <strong>media</strong>, <strong>mediana</strong>, <strong>desviación</strong> y los <strong>cuartiles</strong>.</p>
     <p>Adicionalmente, podemos <strong>graficar</strong> nuestra serie e incluso elaborar un <strong>diagrama de bigotes</strong> para detectar valores anómalos. También puede servir un <strong>historgrama</strong>.</p>
@@ -237,7 +237,7 @@ cut-in
     <div class="box secondary">¿Cómo lo hacemos?</div>
   </section>
 
-  <section class="slide" id="d3">
+  <section class="slide" id="13">
     <h1>Descomposición de una serie temporal</h1>
     <p>Una serie temporal \(S\) se puede expresar como una <strong>combinación de sus características</strong>. La más común es la descomposición STL.</p>
     <div>$$S = T_S \circ E_S \circ R_S$$</div></div>
@@ -262,12 +262,12 @@ cut-in
     También, decir que un buen método de descomposición (y, como veremos, de predicción), generará unos residuos que siguen una distribución normal. Es decir, que su comportamiento se asimila a un ruido blanco. Si en los residuos detectamos patrones estacionales o tendencias, quiere decir que nuestro método de descomposición (o predicción) no ha sido capaz de extraer toda la información relevante de la serie para cumplir su objetivo.
   </section>
 
-  <section class="slide" id="d4">
+  <section class="slide" id="14">
     <h1>Suavizado LOESS</h1>
     <div><img style="height: 50%;" src="images/loess.gif"></div>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="15">
     <h1>¿Cómo lograr la estacionareidad?</h1>
     <div class="box primary">Podemos estabilizar las propiedades estadísticas de una serie aplicando <strong>diferenciación</strong>.</div>
     <p>Llamaremos \(S^{n}\) a la serie resultante de aplicar \(n\) diferenciaciones a partir de \(S\).<br>Una diferenciación de <strong>primer orden</strong> se define como \(S^1 = \{(x_i - x_{i-1}) / x_i, x_{i-1} \in S, \forall i \in \{1,2,..., t\}\}\).</p>
@@ -290,7 +290,7 @@ cut-in
     Eso si, la longitud de la serie resultante se reducirá en \(k\) unidades.
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="16">
     <h1>Autocorrelación</h1>
     <br>
     <br>
@@ -304,7 +304,7 @@ cut-in
     <p>Las funciones de autocorrelación suponen que la serie es <strong>estacionaria</strong>.<br><small>Si no la es, es necesario diferenciar...</small></p>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="17">
     <h1>Función de Autocorrelación</h1>
     <br>
     <div class="box primary">La Función de Autocorrelación (ACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo tanto relaciones directas como indirectas.</div>
@@ -318,25 +318,25 @@ cut-in
     <div class="box secondary">¿Que querrá decir que incluye las relaciones <strong>indirectas</strong>?</div>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="18">
     <h1>Función de Autocorrelación: Ejemplo</h1>
     <p>La siguiente serie describe el precio de las acciones de Google al cerrar la bolsa en diferentes momentos. ¿Recordáis que <strong>propiedad</strong> es necesaria para calcular la ACF?</p>
     <img style="height: 75%;" src="images/ts_google.PNG"/>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="19">
     <h1>Función de Autocorrelación: Ejemplo</h1>
     <p>ACF de la serie, sin estacionariedad. ¿Qué observamos?</p>
     <img style="height: 75%;" src="images/ts_google_acf_ne.PNG"/>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="20">
     <h1>Función de Autocorrelación: Ejemplo</h1>
     <p>ACF de la serie, tras aplicar la primera diferencia. ¡Ahora todo está más claro!</p>
     <img style="height: 75%;" src="images/ts_google_acf_est.PNG"/>
   </section>
 
-  <section class="slide" id="d5">
+  <section class="slide" id="21">
     <h1>Función de Autocorrelación Parcial</h1>
     <br>
     <div class="box primary">La Función de Autocorrelación Parcial (PACF) mide la correlación de los pasos de una serie temporal consigo misma usando diferentes <strong>retardos</strong> <i>lags</i> \(k\), incluyendo <strong>SOLO RELACIONES DIRECTAS</strong>.</div>
@@ -357,7 +357,7 @@ cut-in
   
 
 
-  <section class="slide" id="d5">
+  <section class="slide" id="22">
     <h1>Test estadísticos útiles para series temporales</h1>
     <br><br>
     <table>
@@ -391,7 +391,7 @@ cut-in
   Otro dato curioso: KPSS son las siglas de los autores del test (Kwiatkowski-Phillips-Schmidt-Shin).
 </section>
 
-<section class="slide cover clear" id="d1">
+<section class="slide cover clear" id="23">
   <img class="cover" src="images/ts_bg.jpg"
   alt="Abstract nodes and connections" />
   <div>
@@ -401,7 +401,7 @@ cut-in
   </div>
 </section>
 
-<section class="slide">
+<section class="slide" id="24">
   <h1>Introducción</h1>
   <p>El objetivo de la tarea de <strong>Predicción de Series Temporales</strong> es determinar las \(H\) siguientes observaciones de una serie temporal \(S \in \mathbb{R}^{c \times n}\). Queremos encontrar una función \(f\) tal que:</p>
   <div>
@@ -415,7 +415,7 @@ cut-in
   <div class="box primary next"><strong>SI lo son</strong>. Desde un simple kNN o regresión hasta un Random Forest.</div>
 </section>
 
-<section class="slide">
+<section class="slide" id="25">
   <h1>Modelo Autorregresivo (AR)</h1>
   <p>AR supone que las predicciones <strong>son una combinación lineal</strong> de las observaciones.</p>
   <div>
@@ -432,7 +432,7 @@ cut-in
   <div class="box secondary next">¿Qué ventajas creéis que tiene el modelo AR frente a métodos más complejos?</div>
 </section>
 
-<section class="slide">
+<section class="slide" id="26">
   <h1>Modelo de Medias Móviles (MA)</h1>
   <p>MA supone que las predicciones <strong>son una combinación lineal de errores pasados</strong> (ruido blanco).</p>
   <div>
@@ -449,7 +449,7 @@ cut-in
   <p><strong>¡IMPORTANTE!</strong> Al ser dependiente de errores pasados... ¿Qué sucede si el modelo no captura bien estos errores?</p>
 </section>
 
-<section class="slide">
+<section class="slide" id="27">
   <h1>Modelo ARIMA</h1>
   <p>ARIMA <strong>combina</strong> componentes <strong>AR</strong>, <strong>MA</strong> e <strong>I</strong> (Integración) para modelar series temporales no estacionarias.</p>
   <div>
@@ -469,7 +469,7 @@ cut-in
   </ul>
 </section>
 
-<section class="slide">
+<section class="slide" id="28">
   <h1>Otros modelos</h1>
   <br>
   <div class="flex" style="margin-left: 3em; margin-right: 3em; font-size: large;">
@@ -483,7 +483,7 @@ cut-in
   <br><br>
 </section>
 
-<section class="slide cover clear" id="d1">
+<section class="slide cover clear" id="29">
   <img class="cover" src="images/ts_bg.jpg"
   alt="Abstract nodes and connections" />
   <div>
@@ -493,7 +493,7 @@ cut-in
   </div>
 </section>
 
-<section class="slide">
+<section class="slide" id="30">
   <h1>Particionado del conjunto de datos</h1>
   <br>
   <p>¿Podemos usar un muestreo <strong>aleatorio</strong> con reemplazo (<i>hold-out</i>) convencional?
@@ -504,7 +504,7 @@ cut-in
   <br>
 </section>
 
-<section class="slide">
+<section class="slide" id="31">
   <h1>Ajuste del modelo</h1>
   <br>
   <p>Los modelos presentados hasta ahora siguen enfoques <strong>autorregresivos</strong> y que <strong>dependen</strong> de unos parámetros.</p>
@@ -513,7 +513,7 @@ cut-in
   <p>Siguiendo un ejemplo, si el <strong>tamaño</strong> del conjunto de entrenamiento es de 10, tendremos un sistema de 10-2=8 ecuaciones lineales que se resolverá mediante Mínimos Cuadrados o Máxima Verosimilitud.</p>
 </section>
 
-<section class="slide">
+<section class="slide" id="32">
   <h1>Métricas de Evaluación</h1>
   <br>
   <table>
@@ -553,20 +553,20 @@ cut-in
   <p>MAE, RMSE, MSE son absolutas. MASE, MAPE y sMAPE relativas.</p>
   <p>También es interesante realizar un <strong>análisis de los residuos</strong> para comprobar si el modelo ha sido capaz de aproximar los comportamientos de la serie.</p>
 </section>
-<section class="slide">
+<section class="slide" id="33">
   <h1>Validación cruzada en TSF</h1>
   <div class="box">¡¡No podemos emplear la CV convencional debido a que son datos secuenciales!!</div>
   <p class="next">Alternativa 1: Las particiones son secuenciales y van aumentando. <i>Rolling from origin</i>.</p>
   <img class="next" src="images/ts-cv.PNG"/>
 </section>
 
-<section class="slide">
+<section class="slide" id="34">
   <h1>Validación cruzada en TSF</h1>
   <p class="next">Alternativa 2: Las particiones son secuenciales pero no van aumentando. <i>Blocked CV</i>. <br>OJO: Los bloques se pueden solapar.</p>
   <img class="next" src="images/ts-cv-roll.png"/>
 </section>
 
-<section class="slide">
+<section class="slide" id="35">
   <h1>Validación cruzada en TSF</h1>
   <br>
   <p>En resumen:</p>
@@ -579,7 +579,8 @@ cut-in
   </ol>
   <br>
 </section>
-<section class="cover slide clear titleslide flex" id=cover>
+
+<section class="cover slide clear titleslide flex" id="end">
   <div class="left-side vertical-logo">
       <span></span>
       <img src="images/logo_simidat.png">
