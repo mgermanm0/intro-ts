@@ -189,12 +189,12 @@ cut-in
   <h1>Estacionariedad</h1>
   <p>Es una propiedad <strong>muy interesante</strong> y que conviene <strong>mantenerla o conseguirla</strong>.</p>
   <div class="box primary next">Una serie es <strong>estacionaria</strong> si sus propiedades estadísticas <strong>no</strong> dependen del tiempo.</div>
-  <p>Dos tipo de estacionariedad:</p>
+  <p class="next">Dos tipo de estacionariedad:</p>
   <ul class="incremental" style="max-width: 25em; margin-left: auto; margin-right: auto;">
     <li><strong>Fuerte</strong>, si <strong>todas</strong> las propiedades se mantienen a lo largo del tiempo.</li>
     <li><strong>Débil</strong>, si solo la <strong>media y varianza</strong> se mantienen a lo largo del tiempo.</li>
   </ul>
-  <div class="box secondary">La <strong>estacionalidad fuerte</strong> es muy difícil de conseguir.</div>
+  <div class="box secondary next">La <strong>estacionalidad fuerte</strong> es muy difícil de conseguir.</div>
 </section>
 
 <section class="slide" id="8">
@@ -248,7 +248,7 @@ cut-in
       <li> \(R_S\) son los residuos, es decir, lo restante.</li>
       <li> \(\circ = \{+,\cdot\}\), operador de composición. Puede ser aditiva o multiplicativa.</li>
     </ul>
-    <div class="box secondary">La descomposición STL está basada en la <strong>regresión LOESS/LOWESS</strong>.</div>
+    <div class="box secondary next">La descomposición STL está basada en la <strong>regresión LOESS/LOWESS</strong>.</div>
   </section>
 
   <section class="comment small">
@@ -301,7 +301,7 @@ cut-in
       <div class="box secondary">Función de Autocorrelación<br>(ACF)</div>
       <div class="box secondary">Función de Autocorrelación Parcial (PACF)</div>
     </div>
-    <p>Las funciones de autocorrelación suponen que la serie es <strong>estacionaria</strong>.<br><small>Si no la es, es necesario diferenciar...</small></p>
+    <p class="next">Las funciones de autocorrelación suponen que la serie es <strong>estacionaria</strong>.<br><small>Si no la es, es necesario diferenciar...</small></p>
   </section>
 
   <section class="slide" id="17">
@@ -463,7 +463,7 @@ cut-in
   </ul>
   Determinamos los <strong>parámetros p, q y d</strong> de la siguiente manera:
   <ul>
-    <li>\(d\): Usar pruebas de raíz unitaria o gráficas para ver si la serie es estacionaria.</li>
+    <li>\(d\): Usar pruebas de raíz unitaria (ADF) o gráficas para ver si la serie es estacionaria.</li>
     <li>\(p\) y \(q\): Determinar con las gráficas ACF y PACF (donde se cortan).</li>
   </ul>
 </section>
